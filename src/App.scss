@@ -1,5 +1,12 @@
-.App {
+#App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: whitesmoke;
+  font-size: calc(10px + 2vmin);
 }
 
 #textbox {
@@ -9,7 +16,26 @@
 }
 
 .typed-letters {
+  position: relative;
   color: black;
+  &::after {
+    content: '★';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    color: yellow;
+    animation: shooting-star 1s ease-out forwards;
+  }
+}
+
+@keyframes shooting-star {
+  100% {
+    opacity: 0;
+    bottom: 3rem;
+    right: 1rem;
+    transform: rotate(360deg) scale(.5, .5);
+  }
 }
 
 .current-letter {
@@ -30,18 +56,4 @@
 
 .waiting-letters {
   color: #aaaaaa;
-}
-
-.App-header {
-  background-color: whitesmoke;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-}
-
-.App-link {
-  color: #61dafb;
 }

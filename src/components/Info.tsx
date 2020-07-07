@@ -20,14 +20,15 @@ export default ({ typo, position, letters }: Props) => {
 			}
 		}
 
-		for (let i = 0; i <= 2; i++) {
+		for (let i: number = 0; i <= 2; i++) {
 			maxChars.push(
 				...Object.keys(charMap).filter(
-					(char) =>
+					(char: string) =>
+						charMap[char] !== 1 &&
 						charMap[char] ===
-						Array.from(new Set(Object.values(charMap))).sort(
-							(a, b) => b - a
-						)[i]
+							Array.from(new Set(Object.values(charMap))).sort(
+								(a: number, b: number) => b - a
+							)[i]
 				)
 			);
 		}
@@ -37,6 +38,10 @@ export default ({ typo, position, letters }: Props) => {
 
 	return (
 		<Box paddingTop='1rem' fontSize='1.5rem'>
+			<Box>
+				苦手なキー：
+				{badChars(letters).join(', ')}
+			</Box>
 			<span>ミスタイプ数：{typo.length}　</span>
 			<span>
 				正確率：
