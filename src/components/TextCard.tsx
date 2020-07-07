@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const choose = (choice: string): string =>
-	choice.charAt(Math.random() * (choice.length - 1));
+	choice.charAt(Math.floor(Math.random() * choice.length));
 
 const syllable = (v: string, c: string): string =>
 	choose(c) + choose(v) + choose(c) + choose(c) + choose(v) + choose(c);
@@ -49,6 +49,12 @@ export default () => {
 	const [position, setPosition] = useState<number>(0);
 	const [typo, setTypo] = useState<number[]>(new Array(0));
 
+	const markColorMap: { [key: string]: string } = {
+		'★': 'yellow',
+		'♥': 'pink',
+		'♦': 'skyblue',
+	};
+
 	const handleKey = (e: React.KeyboardEvent<HTMLDivElement>): void => {
 		if (typing) {
 			let textSpans: HTMLCollection = document.querySelector('#textbox')!
@@ -62,8 +68,15 @@ export default () => {
 					setConsonants(consonants.replace(e.key, ''));
 				}
 
-				textSpans[position].classList.add('typed-letters');
-				textSpans[position].classList.remove('current-letter');
+				let typed: Element = textSpans[position];
+
+				typed.classList.add('typed-letters');
+
+				let mark: string = choose('★♥♦');
+				typed.setAttribute('data-name', mark);
+
+				typed.classList.remove('current-letter');
+
 				if (position <= text.length - 2) {
 					textSpans[position + 1].className = 'current-letter';
 					setPosition(position + 1);
@@ -113,7 +126,7 @@ export default () => {
 				{text
 					.split('')
 					.slice(1)
-					.map((char) => (
+					.map((char: string) => (
 						<span className='waiting-letters'>{char}</span>
 					))}
 			</Box>

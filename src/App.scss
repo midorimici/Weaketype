@@ -19,12 +19,20 @@
   position: relative;
   color: black;
   &::after {
-    content: '★';
     position: absolute;
     bottom: 0;
     right: 0;
-    color: yellow;
+    content: attr(data-name);
     animation: shooting-star 1s ease-out forwards;
+  }
+  &[data-name='★']::after {
+    color: yellow;
+  }
+  &[data-name='♥']::after {
+    color: pink;
+  }
+  &[data-name='♦']::after {
+    color: skyblue;
   }
 }
 
