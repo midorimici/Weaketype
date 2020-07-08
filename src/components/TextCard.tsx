@@ -17,11 +17,13 @@ const useStyles = makeStyles((theme: Theme) =>
 			flexDirection: 'column',
 			justifyContent: 'space-between',
 			outline: 'none',
+			/*
 			'&:focus': {
 				boxShadow: `0px 2px 15px 5px rgba(0,0,0,0.2),
         0px 1px 15px 6px rgba(0,0,0,0.14),
         0px 1px 17px 6px rgba(0,0,0,0.12)`,
 			},
+			*/
 		},
 		buttons: {
 			'& > *': {
@@ -37,7 +39,7 @@ const choose = (choice: string): string =>
 const syllable = (v: string, c: string): string =>
 	choose(c) + choose(v) + choose(c) + choose(c) + choose(v) + choose(c);
 
-export default () => {
+export default ({ elev }: { elev: number }) => {
 	const classes = useStyles();
 
 	const [vowels, setVowels] = useState<string>('aeiou');
@@ -110,9 +112,11 @@ export default () => {
 
 	return (
 		<Card
+			id='card'
 			onKeyPress={(e: React.KeyboardEvent<HTMLDivElement>) => handleKey(e)}
 			tabIndex={0}
 			className={classes.card}
+			elevation={elev}
 		>
 			<Info typo={typo} position={position} letters={vowels + consonants} />
 			<Box id='textbox'>

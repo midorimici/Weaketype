@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // components
 import TextCard from './components/TextCard';
@@ -9,9 +9,16 @@ import PopUp from './components/PopUp';
 import './App.scss';
 
 export default () => {
+	const [elev, setElev] = useState<boolean>(false);
+
 	return (
-		<div id='App'>
-			<TextCard />
+		<div
+			id='App'
+			onClick={() =>
+				setElev(document.activeElement === document.getElementById('card'))
+			}
+		>
+			<TextCard elev={elev ? 8 : 1} />
 			<Description />
 			<PopUp />
 		</div>
