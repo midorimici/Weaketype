@@ -49,12 +49,6 @@ export default () => {
 	const [position, setPosition] = useState<number>(0);
 	const [typo, setTypo] = useState<number[]>(new Array(0));
 
-	const markColorMap: { [key: string]: string } = {
-		'★': 'yellow',
-		'♥': 'pink',
-		'♦': 'skyblue',
-	};
-
 	const handleKey = (e: React.KeyboardEvent<HTMLDivElement>): void => {
 		if (typing) {
 			let textSpans: HTMLCollection = document.querySelector('#textbox')!
@@ -131,8 +125,12 @@ export default () => {
 					))}
 			</Box>
 			<Box className={classes.buttons}>
-				<MyButton onClick={typingToggle}>{typing ? 'OFF' : 'ON'}</MyButton>
-				<MyButton onClick={refresh}>Refresh</MyButton>
+				<MyButton id='onoff-btn' onClick={typingToggle}>
+					{typing ? 'OFF' : 'ON'}
+				</MyButton>
+				<MyButton id='refresh-btn' onClick={refresh}>
+					Refresh
+				</MyButton>
 			</Box>
 		</Card>
 	);

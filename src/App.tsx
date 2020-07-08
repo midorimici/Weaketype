@@ -1,8 +1,9 @@
 import React from 'react';
 
 // components
-import Description from './components/Description';
 import TextCard from './components/TextCard';
+import Description from './components/Description';
+import PopUp from './components/PopUp';
 
 //styles
 import './App.scss';
@@ -12,6 +13,7 @@ export default () => {
 		<div id='App'>
 			<TextCard />
 			<Description />
+			<PopUp />
 		</div>
 	);
 };

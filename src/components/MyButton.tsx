@@ -28,16 +28,19 @@ const OrangeButton = withStyles((theme: Theme) => ({
 type Props = {
 	children: any;
 	onClick: () => void;
+	id: string;
+	elev?: boolean;
 };
 
-export default ({ children, onClick }: Props) => {
+export default ({ children, onClick, id, elev = false }: Props) => {
 	return (
 		<ThemeProvider theme={styles}>
 			<OrangeButton
+				id={id}
 				onClick={onClick}
 				variant='contained'
 				color='primary'
-				disableElevation
+				disableElevation={!elev}
 			>
 				{children}
 			</OrangeButton>

@@ -37,7 +37,7 @@ export default ({ typo, position, letters }: Props) => {
 	};
 
 	return (
-		<Box paddingTop='1rem' fontSize='1.5rem'>
+		<Box id='info' paddingTop='1rem' fontSize='1.5rem'>
 			<Box>
 				苦手なキー：
 				{badChars(letters).join(', ')}
