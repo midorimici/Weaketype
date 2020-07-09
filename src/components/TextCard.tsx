@@ -133,7 +133,7 @@ export default ({ elev }: { elev: number }) => {
 					{typing ? 'OFF' : 'ON'}
 				</MyButton>
 				<MyButton id='refresh-btn' onClick={refresh}>
-					Refresh
+					更新
 				</MyButton>
 			</Box>
 		</Card>

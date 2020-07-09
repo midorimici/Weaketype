@@ -1,5 +1,4 @@
-#popup.hide {
-  display: none;
+#popup {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -12,4 +11,12 @@
 
 #light {
   position: absolute;
+}
+
+#popup-card {
+  position: absolute;
+  top: 60vh;
+  max-width: 24rem;
+  padding: 1.5rem;
+  font-size: 1.2rem;
 }

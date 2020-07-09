@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 
 // components
 import MyButton from './MyButton';
+import PopUp from './PopUp';
+
+// styles
+import './PopUp.scss';
 
 const popUpMap: { [key: number]: string } = {
 	0: 'onoff-btn',
@@ -10,15 +15,32 @@ const popUpMap: { [key: number]: string } = {
 	2: 'info',
 };
 
+const cardContentMap: { [key: number]: string[] } = {
+	0: [
+		'ON ボタンを押すと、キーボード入力を受けつけるようになります。',
+		'カードをクリックして浮かせるとタイピングを開始できます。',
+		'テキストをすべて打ち終えると OFF になります。',
+	],
+	1: ['更新ボタンを押すとテキストが更新されます。'],
+	2: [
+		`この部分に、苦手なキー、打ち間違えた回数、
+	現在のテキストにおけるタイピング正確率が表示されます。`,
+		'更新ボタンを押すと、苦手なキーをもとに新たなテキストを生成します。',
+	],
+};
+
 export default () => {
+	const [order, setOrder] = useState<number>(0);
+
 	const showPopUp = (): void => {
-		document.getElementById('popup')!.className = '';
+		document.getElementById('popup')!.hidden = false;
+		document.getElementById('popup-card')!.hidden = false;
 		setPositions(0);
 	};
 
-	const setPositions = (order: number): void => {
+	const setPositions = (ord: number): void => {
 		let targetRect: DOMRect = document
-			.getElementById(popUpMap[order])!
+			.getElementById(popUpMap[ord])!
 			.getBoundingClientRect();
 		let top: number = targetRect.top;
 		let right: number = targetRect.right;
@@ -50,34 +72,45 @@ export default () => {
 		light.style.left = left + 'px';
 		light.style.width = targetRect.width + 'px';
 		light.style.height = targetRect.height + 'px';
+	};
 
-		document.getElementById('popup')!.onclick = () => {
-			if (order === 2) {
-				document.getElementById('popup')!.className = 'hide';
-				return;
-			}
-			setPositions(order + 1);
-		};
+	const handleClick = () => {
+		if (order === 2) {
+			setOrder(0);
+			document.getElementById('popup-card')!.hidden = true;
+			document.getElementById('popup')!.hidden = true;
+			return;
+		}
+		setOrder(order + 1);
+		setPositions(order + 1);
 	};
 
 	return (
-		<Box
-			component='section'
-			id='description'
-			m={4}
-			fontFamily='Meiryo'
-			fontSize='1.2rem'
-		>
-			<h2>あなたの苦手なキーはどれ？</h2>
-			<Box>
-				<p>タイピング速度を上げるには、タイプミスを減らすのが効果的です。</p>
-				<p>
-					打ち間違いの多い苦手なキーを集中的に練習して、正確なタイピングを目指しましょう！
-				</p>
+		<>
+			<Box
+				component='section'
+				id='description'
+				m={4}
+				fontFamily='Meiryo'
+				fontSize='1.2rem'
+			>
+				<h2>あなたの苦手なキーはどれ？</h2>
+				<Box>
+					<p>タイピング速度を上げるには、タイプミスを減らすのが効果的です。</p>
+					<p>
+						打ち間違いの多い苦手なキーを集中的に練習して、正確なタイピングを目指しましょう！
+					</p>
+				</Box>
+				<MyButton id='showpopup-btn' onClick={showPopUp} elev={true}>
+					説明を見る
+				</MyButton>
 			</Box>
-			<MyButton id='showpopup-btn' onClick={showPopUp} elev={true}>
-				説明を見る
-			</MyButton>
-		</Box>
+			<PopUp onClick={handleClick} />
+			<Card id='popup-card' hidden>
+				{cardContentMap[order].map((p: string) => (
+					<p>{p}</p>
+				))}
+			</Card>
+		</>
 	);
 };

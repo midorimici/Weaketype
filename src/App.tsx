@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 // components
 import TextCard from './components/TextCard';
 import Description from './components/Description';
-import PopUp from './components/PopUp';
 
 //styles
 import './App.scss';
@@ -20,7 +19,6 @@ export default () => {
 		>
 			<TextCard elev={elev ? 8 : 1} />
 			<Description />
-			<PopUp />
 		</div>
 	);
 };
