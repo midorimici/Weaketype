@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
 // components
+import Settings from './components/Settings';
 import TextCard from './components/TextCard';
 import Description from './components/Description';
 
-//styles
+// assets
 import './App.scss';
 
 export default () => {
@@ -17,6 +18,7 @@ export default () => {
 				setElev(document.activeElement === document.getElementById('card'))
 			}
 		>
+			<Settings />
 			<TextCard elev={elev ? 8 : 1} />
 			<Description />
 		</div>

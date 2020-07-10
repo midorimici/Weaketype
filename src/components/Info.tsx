@@ -40,7 +40,9 @@ export default ({ typo, position, letters }: Props) => {
 		<Box id='info' paddingTop='1rem' fontSize='1.5rem'>
 			<Box>
 				苦手なキー：
-				{badChars(letters).join(', ')}
+				<span id='bad-keys' className='anim'>
+					{badChars(letters).join(', ')}
+				</span>
 			</Box>
 			<span>ミスタイプ数：{typo.length}　</span>
 			<span>

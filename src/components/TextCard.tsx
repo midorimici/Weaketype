@@ -91,6 +91,9 @@ export default ({ elev }: { elev: number }) => {
 
 					setTypo([...typo, position]);
 					textSpans[position].classList.add('typo');
+					document.getElementById('bad-keys')!.classList.remove('anim');
+					void document.getElementById('bad-keys')!.offsetWidth;
+					document.getElementById('bad-keys')!.classList.add('anim');
 				}
 			}
 		}

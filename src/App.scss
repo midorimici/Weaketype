@@ -5,8 +5,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: whitesmoke;
   font-size: calc(10px + 2vmin);
+}
+
+#setting-logo {
+  position: absolute;
+  right: calc(50% - 24rem);
+  top: 8rem;
+  cursor: pointer;
+  transition: .4s;
+  &:hover {
+    transform: scale(1.2, 1.2) rotateZ(120deg);
+  }
 }
 
 #textbox {
@@ -63,4 +73,17 @@
 
 .waiting-letters {
   color: #aaaaaa;
+}
+
+#bad-keys.anim {
+  animation: calmdown 1s ease-out forwards;
+}
+
+@keyframes calmdown {
+  0% {
+    color: red;
+  }
+  100% {
+    color: initial;
+  }
 }
