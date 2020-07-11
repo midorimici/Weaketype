@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { RecoilRoot } from 'recoil';
 
 // components
 import Settings from './components/Settings';
@@ -12,15 +13,17 @@ export default () => {
 	const [elev, setElev] = useState<boolean>(false);
 
 	return (
-		<div
-			id='App'
-			onClick={() =>
-				setElev(document.activeElement === document.getElementById('card'))
-			}
-		>
-			<Settings />
-			<TextCard elev={elev ? 8 : 1} />
-			<Description />
-		</div>
+		<RecoilRoot>
+			<div
+				id='App'
+				onClick={() =>
+					setElev(document.activeElement === document.getElementById('card'))
+				}
+			>
+				<Settings />
+				<TextCard elev={elev ? 8 : 1} />
+				<Description />
+			</div>
+		</RecoilRoot>
 	);
 };

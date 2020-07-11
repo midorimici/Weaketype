@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
@@ -6,6 +8,12 @@ import Card from '@material-ui/core/Card';
 // components
 import MyButton from './MyButton';
 import Info from './Info';
+
+import {
+	weightState,
+	syllableNumberState,
+	textLengthState,
+} from '../atoms/SettingsAtoms';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -37,15 +45,29 @@ const choose = (choice: string): string =>
 	choice.charAt(Math.floor(Math.random() * choice.length));
 
 const syllable = (v: string, c: string): string =>
-	choose(c) + choose(v) + choose(c) + choose(c) + choose(v) + choose(c);
+	choose(c) + choose(v) + choose(c);
+
+const word = (v: string, c: string, sylNum: number): string => {
+	let wordTmp: string = '';
+	for (let i: number = 0; i < sylNum; i++) {
+		wordTmp += syllable(v, c);
+	}
+	return wordTmp;
+};
 
 export default ({ elev }: { elev: number }) => {
 	const classes = useStyles();
 
+	const weight: number = useRecoilValue(weightState);
+	const syllableNumber: number = useRecoilValue(syllableNumberState);
+	const textLength: number = useRecoilValue(textLengthState);
+
 	const [vowels, setVowels] = useState<string>('aeiou');
 	const [consonants, setConsonants] = useState<string>('bcdfghjklmnpqrstvwxyz');
 	const [text, setText] = useState<string>(
-		[...Array(15)].map(() => syllable(vowels, consonants)).join(' ')
+		[...Array(textLength)]
+			.map(() => word(vowels, consonants, syllableNumber))
+			.join(' ')
 	);
 	const [typing, setTyping] = useState<boolean>(false);
 	const [position, setPosition] = useState<number>(0);
@@ -84,9 +106,9 @@ export default ({ elev }: { elev: number }) => {
 					let typoedLetter: string = text[position];
 
 					if (~vowels.indexOf(typoedLetter)) {
-						setVowels(vowels + typoedLetter.repeat(10));
+						setVowels(vowels + typoedLetter.repeat(weight));
 					} else if (~consonants.indexOf(typoedLetter)) {
-						setConsonants(consonants + typoedLetter.repeat(10));
+						setConsonants(consonants + typoedLetter.repeat(weight));
 					}
 
 					setTypo([...typo, position]);
@@ -108,7 +130,11 @@ export default ({ elev }: { elev: number }) => {
 			i.className = 'waiting-letters';
 		}
 		textSpans[0].className = 'current-letter';
-		setText([...Array(15)].map(() => syllable(vowels, consonants)).join(' '));
+		setText(
+			[...Array(textLength)]
+				.map(() => word(vowels, consonants, syllableNumber))
+				.join(' ')
+		);
 		setPosition(0);
 		setTypo(new Array(0));
 	};
