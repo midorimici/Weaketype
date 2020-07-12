@@ -13,14 +13,13 @@ import { orange } from '@material-ui/core/colors';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 
 // components
 import MyButton from './MyButton';
-import SettingItem from './SettingItem';
+import SettingNumberItem from './SettingNumberItem';
+import SettingCheckboxItem from './SettingCheckboxItem';
 import {
 	weightState,
 	syllableNumberState,
@@ -58,6 +57,16 @@ export default () => {
 		syllableNumberState
 	);
 	const [textLength, setTextLength] = useRecoilState(textLengthState);
+	const [containCapitals, setContainCapitals] = useRecoilState(
+		containCapitalsState
+	);
+	const [
+		containConsonantDigraphs,
+		setContainConsonantDigraphs,
+	] = useRecoilState(containConsonantDigraphsState);
+	const [containRVowels, setContainRVowels] = useRecoilState(
+		containRVowelsState
+	);
 
 	return (
 		<>
@@ -80,7 +89,7 @@ export default () => {
 				</DialogTitle>
 				<ThemeProvider theme={theme}>
 					<DialogContent>
-						<SettingItem
+						<SettingNumberItem
 							title='重み'
 							description='打ち間違えたキーの文字がどれぐらい出現しやすくなるかを表します。'
 							className={classes.textField}
@@ -92,7 +101,7 @@ export default () => {
 							}}
 							setFunc={setWeight}
 						/>
-						<SettingItem
+						<SettingNumberItem
 							title='音節数'
 							description='一単語あたりの音節数、母音の数です。'
 							className={classes.textField}
@@ -104,7 +113,7 @@ export default () => {
 							}}
 							setFunc={setSyllableNumber}
 						/>
-						<SettingItem
+						<SettingNumberItem
 							title='テキストの単語数'
 							description='テキスト一回あたりの単語数です。'
 							className={classes.textField}
@@ -115,6 +124,26 @@ export default () => {
 								max: 16,
 							}}
 							setFunc={setTextLength}
+						/>
+						<SettingCheckboxItem
+							title='大文字を含む'
+							description='各単語の先頭を大文字にします。'
+							checked={containCapitals}
+							onChange={() => setContainCapitals(!containCapitals)}
+						/>
+						<SettingCheckboxItem
+							title='二重音字子音を含む'
+							description='子音２字でひとつの音を表すものを単語中に含めます。'
+							checked={containConsonantDigraphs}
+							onChange={() =>
+								setContainConsonantDigraphs(!containConsonantDigraphs)
+							}
+						/>
+						<SettingCheckboxItem
+							title='Rつき母音を含む'
+							description='Rが前後につく母音を単語中に含めます。'
+							checked={containRVowels}
+							onChange={() => setContainRVowels(!containRVowels)}
 						/>
 					</DialogContent>
 				</ThemeProvider>

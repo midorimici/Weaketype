@@ -13,6 +13,9 @@ import {
 	weightState,
 	syllableNumberState,
 	textLengthState,
+	containCapitalsState,
+	containConsonantDigraphsState,
+	containRVowelsState,
 } from '../atoms/SettingsAtoms';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,13 +44,13 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const choose = (choice: string): string =>
-	choice.charAt(Math.floor(Math.random() * choice.length));
+const choose = (choice: string[]): string =>
+	choice[Math.floor(Math.random() * choice.length)];
 
-const syllable = (v: string, c: string): string =>
+const syllable = (v: string[], c: string[]): string =>
 	choose(c) + choose(v) + choose(c);
 
-const word = (v: string, c: string, sylNum: number): string => {
+const word = (v: string[], c: string[], sylNum: number): string => {
 	let wordTmp: string = '';
 	for (let i: number = 0; i < sylNum; i++) {
 		wordTmp += syllable(v, c);
@@ -61,9 +64,12 @@ export default ({ elev }: { elev: number }) => {
 	const weight: number = useRecoilValue(weightState);
 	const syllableNumber: number = useRecoilValue(syllableNumberState);
 	const textLength: number = useRecoilValue(textLengthState);
+	const containCapitals: boolean = useRecoilValue(containCapitalsState);
 
-	const [vowels, setVowels] = useState<string>('aeiou');
-	const [consonants, setConsonants] = useState<string>('bcdfghjklmnpqrstvwxyz');
+	const [vowels, setVowels] = useState<string[]>('aeiou'.split(''));
+	const [consonants, setConsonants] = useState<string[]>(
+		'bcdfghjklmnpqrstvwxyz'.split('')
+	);
 	const [text, setText] = useState<string>(
 		[...Array(textLength)]
 			.map(() => word(vowels, consonants, syllableNumber))
@@ -78,19 +84,19 @@ export default ({ elev }: { elev: number }) => {
 			let textSpans: HTMLCollection = document.querySelector('#textbox')!
 				.children;
 			if (e.key === text[position]) {
-				if ((vowels.match(new RegExp(e.key, 'g')) || []).length >= 2) {
-					setVowels(vowels.replace(e.key, ''));
+				if (vowels.filter((char: string) => char === e.key).length >= 2) {
+					setVowels(vowels.join('').replace(e.key, '').split(''));
 				} else if (
-					(consonants.match(new RegExp(e.key, 'g')) || []).length >= 2
+					consonants.filter((char: string) => char === e.key).length >= 2
 				) {
-					setConsonants(consonants.replace(e.key, ''));
+					setConsonants(consonants.join('').replace(e.key, '').split(''));
 				}
 
 				let typed: Element = textSpans[position];
 
 				typed.classList.add('typed-letters');
 
-				let mark: string = choose('★♥♦');
+				let mark: string = choose('★♥♦'.split(''));
 				typed.setAttribute('data-name', mark);
 
 				typed.classList.remove('current-letter');
@@ -103,12 +109,34 @@ export default ({ elev }: { elev: number }) => {
 				}
 			} else {
 				if (typo.indexOf(position) === -1) {
-					let typoedLetter: string = text[position];
+					let typoedLetter: string = text[position].toLowerCase();
 
 					if (~vowels.indexOf(typoedLetter)) {
-						setVowels(vowels + typoedLetter.repeat(weight));
+						let chars: string[] = vowels.filter(
+							(e: string) => ~e.indexOf(typoedLetter)
+						);
+						setVowels(
+							vowels.concat(
+								chars
+									.map((e: string) =>
+										new Array<string>(Math.floor(weight / chars.length)).fill(e)
+									)
+									.flat()
+							)
+						);
 					} else if (~consonants.indexOf(typoedLetter)) {
-						setConsonants(consonants + typoedLetter.repeat(weight));
+						let chars: string[] = consonants.filter(
+							(e: string) => ~e.indexOf(typoedLetter)
+						);
+						setConsonants(
+							consonants.concat(
+								chars
+									.map((e: string) =>
+										new Array<string>(Math.floor(weight / chars.length)).fill(e)
+									)
+									.flat()
+							)
+						);
 					}
 
 					setTypo([...typo, position]);
@@ -130,11 +158,21 @@ export default ({ elev }: { elev: number }) => {
 			i.className = 'waiting-letters';
 		}
 		textSpans[0].className = 'current-letter';
-		setText(
-			[...Array(textLength)]
-				.map(() => word(vowels, consonants, syllableNumber))
-				.join(' ')
-		);
+
+		if (containCapitals) {
+			setText(
+				[...Array(textLength)]
+					.map(() => word(vowels, consonants, syllableNumber))
+					.map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+					.join(' ')
+			);
+		} else {
+			setText(
+				[...Array(textLength)]
+					.map(() => word(vowels, consonants, syllableNumber))
+					.join(' ')
+			);
+		}
 		setPosition(0);
 		setTypo(new Array(0));
 	};
@@ -147,7 +185,11 @@ export default ({ elev }: { elev: number }) => {
 			className={classes.card}
 			elevation={elev}
 		>
-			<Info typo={typo} position={position} letters={vowels + consonants} />
+			<Info
+				typo={typo}
+				position={position}
+				letters={vowels.join('') + consonants.join('')}
+			/>
 			<Box id='textbox'>
 				<span className='current-letter'>{text[0]}</span>
 				{text
