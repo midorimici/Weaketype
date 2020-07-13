@@ -8,19 +8,25 @@ import Grid from '@material-ui/core/Grid';
 
 type Props = {
 	title: string;
+	label?: string;
 	description: string;
 	className: string;
 	value: number;
 	inputProps: { step: number; min: number; max: number };
+	min: number;
+	max: number;
 	setFunc: (valOrUpdater: number) => void;
 };
 
 export default ({
 	title,
+	label = title,
 	description,
 	className,
 	value,
 	inputProps,
+	min,
+	max,
 	setFunc,
 }: Props) => {
 	return (
@@ -34,15 +40,18 @@ export default ({
 			<Grid item>
 				<TextField
 					className={className}
-					label={title}
+					label={label}
 					type='number'
 					variant='outlined'
 					color='secondary'
 					value={value}
 					inputProps={inputProps}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						setFunc(Number(e.target.value))
-					}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+						let val = Number(e.target.value);
+						if (val < min) val = min;
+						if (val > max) val = max;
+						setFunc(val);
+					}}
 				/>
 			</Grid>
 		</Grid>

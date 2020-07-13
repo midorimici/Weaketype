@@ -16,7 +16,7 @@ type Props = {
 export default ({ title, description, checked, onChange }: Props) => {
 	return (
 		<Grid container justify='space-between'>
-			<Grid item>
+			<Grid item xs={8}>
 				<DialogContentText>
 					<Typography variant='h5'>{title}</Typography>
 					<Typography variant='body1'>{description}</Typography>

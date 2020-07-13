@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 
 // components
 import MyButton from './MyButton';
@@ -12,21 +14,28 @@ import './PopUp.scss';
 const popUpMap: { [key: number]: string } = {
 	0: 'onoff-btn',
 	1: 'refresh-btn',
-	2: 'info',
+	2: 'textbox',
+	3: 'info',
+	4: 'setting-logo',
 };
 
 const cardContentMap: { [key: number]: string[] } = {
 	0: [
 		'ON ボタンを押すと、キーボード入力を受けつけるようになります。',
 		'カードをクリックして浮かせるとタイピングを開始できます。',
-		'テキストをすべて打ち終えると OFF になります。',
+		'テキストをすべて打ち終えると OFF になります（設定で変更できます）。',
 	],
 	1: ['更新ボタンを押すとテキストが更新されます。'],
 	2: [
-		`この部分に、苦手なキー、打ち間違えた回数、
+		'カードの中央にタイピングするテキストが表示されます。',
+		'テキストは苦手なキーや設定をもとにランダムに生成されます。',
+	],
+	3: [
+		`カードの上の部分に、苦手なキー、打ち間違えた回数、
 	現在のテキストにおけるタイピング正確率が表示されます。`,
 		'更新ボタンを押すと、苦手なキーをもとに新たなテキストを生成します。',
 	],
+	4: ['歯車のアイコンからさまざまな設定を変更できます。'],
 };
 
 export default () => {
@@ -74,8 +83,8 @@ export default () => {
 		light.style.height = targetRect.height + 'px';
 	};
 
-	const handleClick = () => {
-		if (order === 2) {
+	const handleNext = () => {
+		if (order === 4) {
 			setOrder(0);
 			document.getElementById('popup-card')!.hidden = true;
 			document.getElementById('popup')!.hidden = true;
@@ -83,6 +92,11 @@ export default () => {
 		}
 		setOrder(order + 1);
 		setPositions(order + 1);
+	};
+
+	const handlePrevious = () => {
+		setOrder(order - 1);
+		setPositions(order - 1);
 	};
 
 	return (
@@ -105,11 +119,25 @@ export default () => {
 					説明を見る
 				</MyButton>
 			</Box>
-			<PopUp onClick={handleClick} />
+			<PopUp onClick={handleNext} />
 			<Card id='popup-card' hidden>
-				{cardContentMap[order].map((p: string) => (
-					<p>{p}</p>
-				))}
+				<CardContent>
+					{cardContentMap[order].map((p: string) => (
+						<p>{p}</p>
+					))}
+				</CardContent>
+				<CardActions style={{ justifyContent: 'center' }}>
+					<MyButton
+						id='desc-prev-btn'
+						onClick={handlePrevious}
+						disabled={order === 0}
+					>
+						前へ
+					</MyButton>
+					<MyButton id='desc-next-btn' onClick={handleNext}>
+						次へ
+					</MyButton>
+				</CardActions>
 			</Card>
 		</>
 	);

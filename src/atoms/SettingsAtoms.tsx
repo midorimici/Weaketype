@@ -20,12 +20,12 @@ export const containCapitalsState = atom<boolean>({
 	default: false,
 });
 
-export const containConsonantDigraphsState = atom<boolean>({
-	key: 'containConsonantDigraphs',
+export const containDigraphsState = atom<boolean>({
+	key: 'containDigraphs',
 	default: false,
 });
 
-export const containRVowelsState = atom<boolean>({
-	key: 'containRVowels',
+export const autoRefreshState = atom<boolean>({
+	key: 'autoRefresh',
 	default: false,
 });

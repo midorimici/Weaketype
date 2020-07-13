@@ -23,6 +23,7 @@
   font-family: 'Consolas';
   padding: 1rem;
   line-height: 150%;
+  white-space: pre-wrap;
 }
 
 .typed-letters {
@@ -57,7 +58,7 @@
 
 .current-letter {
   color: #aaaaaa;
-  text-decoration: underline;
+  border-bottom: solid;
   animation: blink 1s linear infinite;
 }
 
@@ -67,7 +68,7 @@
 
 @keyframes blink {
   100% {
-    text-decoration: none;
+    border-bottom: none;
   }
 }
 

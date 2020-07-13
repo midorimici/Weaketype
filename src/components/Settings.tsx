@@ -25,8 +25,8 @@ import {
 	syllableNumberState,
 	textLengthState,
 	containCapitalsState,
-	containConsonantDigraphsState,
-	containRVowelsState,
+	containDigraphsState,
+	autoRefreshState,
 } from '../atoms/SettingsAtoms';
 
 import logo from '../cog-solid.svg';
@@ -60,13 +60,10 @@ export default () => {
 	const [containCapitals, setContainCapitals] = useRecoilState(
 		containCapitalsState
 	);
-	const [
-		containConsonantDigraphs,
-		setContainConsonantDigraphs,
-	] = useRecoilState(containConsonantDigraphsState);
-	const [containRVowels, setContainRVowels] = useRecoilState(
-		containRVowelsState
+	const [containDigraphs, setContainDigraphs] = useRecoilState(
+		containDigraphsState
 	);
+	const [autoRefresh, setAutoRefresh] = useRecoilState(autoRefreshState);
 
 	return (
 		<>
@@ -99,6 +96,8 @@ export default () => {
 								min: 0,
 								max: 50,
 							}}
+							min={0}
+							max={50}
 							setFunc={setWeight}
 						/>
 						<SettingNumberItem
@@ -111,10 +110,13 @@ export default () => {
 								min: 1,
 								max: 12,
 							}}
+							min={1}
+							max={12}
 							setFunc={setSyllableNumber}
 						/>
 						<SettingNumberItem
 							title='テキストの単語数'
+							label='単語数'
 							description='テキスト一回あたりの単語数です。'
 							className={classes.textField}
 							value={textLength}
@@ -123,6 +125,8 @@ export default () => {
 								min: 1,
 								max: 16,
 							}}
+							min={1}
+							max={16}
 							setFunc={setTextLength}
 						/>
 						<SettingCheckboxItem
@@ -132,18 +136,16 @@ export default () => {
 							onChange={() => setContainCapitals(!containCapitals)}
 						/>
 						<SettingCheckboxItem
-							title='二重音字子音を含む'
-							description='子音２字でひとつの音を表すものを単語中に含めます。'
-							checked={containConsonantDigraphs}
-							onChange={() =>
-								setContainConsonantDigraphs(!containConsonantDigraphs)
-							}
+							title='二重音字を含む'
+							description='２字でひとつの音を表すものを単語中に含めます。'
+							checked={containDigraphs}
+							onChange={() => setContainDigraphs(!containDigraphs)}
 						/>
 						<SettingCheckboxItem
-							title='Rつき母音を含む'
-							description='Rが前後につく母音を単語中に含めます。'
-							checked={containRVowels}
-							onChange={() => setContainRVowels(!containRVowels)}
+							title='自動更新'
+							description='テキストをすべて打ち終えると自動で次のテキストのタイピングを開始します。'
+							checked={autoRefresh}
+							onChange={() => setAutoRefresh(!autoRefresh)}
 						/>
 					</DialogContent>
 				</ThemeProvider>

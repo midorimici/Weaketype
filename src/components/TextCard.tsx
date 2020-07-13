@@ -14,8 +14,8 @@ import {
 	syllableNumberState,
 	textLengthState,
 	containCapitalsState,
-	containConsonantDigraphsState,
-	containRVowelsState,
+	containDigraphsState,
+	autoRefreshState,
 } from '../atoms/SettingsAtoms';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,7 +48,7 @@ const choose = (choice: string[]): string =>
 	choice[Math.floor(Math.random() * choice.length)];
 
 const syllable = (v: string[], c: string[]): string =>
-	choose(c) + choose(v) + choose(c);
+	(choose(['0', '1']) === '0' ? choose(c) : '') + choose(v) + choose(c);
 
 const word = (v: string[], c: string[], sylNum: number): string => {
 	let wordTmp: string = '';
@@ -58,6 +58,55 @@ const word = (v: string[], c: string[], sylNum: number): string => {
 	return wordTmp;
 };
 
+// 二重音字母音
+const vowelsAndSemivowels: string[] = ['a', 'e', 'i', 'o', 'u', 'y', 'w'];
+let vowelDiagraphs: string[] = [];
+
+for (const char1 of vowelsAndSemivowels) {
+	for (const char2 of vowelsAndSemivowels) {
+		vowelDiagraphs.push(char1 + char2);
+	}
+}
+
+vowelDiagraphs = Array.from(new Set(vowelDiagraphs)).filter(
+	(e: string) => e !== 'yy' && e !== 'ww'
+);
+
+// 二重音字子音
+const consonantDiagraphs: string[] = [
+	'bl',
+	'br',
+	'ch',
+	'ck',
+	'cl',
+	'cr',
+	'dj',
+	'dr',
+	'fl',
+	'fr',
+	'gh',
+	'gl',
+	'gr',
+	'gn',
+	'ng',
+	'ph',
+	'pl',
+	'pr',
+	'sc',
+	'sh',
+	'sk',
+	'sl',
+	'sm',
+	'sn',
+	'sp',
+	'st',
+	'th',
+	'tr',
+	'ts',
+	'wh',
+	'wr',
+];
+
 export default ({ elev }: { elev: number }) => {
 	const classes = useStyles();
 
@@ -65,6 +114,8 @@ export default ({ elev }: { elev: number }) => {
 	const syllableNumber: number = useRecoilValue(syllableNumberState);
 	const textLength: number = useRecoilValue(textLengthState);
 	const containCapitals: boolean = useRecoilValue(containCapitalsState);
+	const containDigraphs: boolean = useRecoilValue(containDigraphsState);
+	const autoRefresh: boolean = useRecoilValue(autoRefreshState);
 
 	const [vowels, setVowels] = useState<string[]>('aeiou'.split(''));
 	const [consonants, setConsonants] = useState<string[]>(
@@ -104,8 +155,14 @@ export default ({ elev }: { elev: number }) => {
 				if (position <= text.length - 2) {
 					textSpans[position + 1].className = 'current-letter';
 					setPosition(position + 1);
+					if (
+						autoRefresh &&
+						position === text.length - 2 &&
+						text.slice(-1)[0] !== ' '
+					)
+						setText(text + ' ');
 				} else {
-					setTyping(false);
+					autoRefresh ? refresh() : setTyping(false);
 				}
 			} else {
 				if (typo.indexOf(position) === -1) {
@@ -141,6 +198,7 @@ export default ({ elev }: { elev: number }) => {
 
 					setTypo([...typo, position]);
 					textSpans[position].classList.add('typo');
+
 					document.getElementById('bad-keys')!.classList.remove('anim');
 					void document.getElementById('bad-keys')!.offsetWidth;
 					document.getElementById('bad-keys')!.classList.add('anim');
@@ -159,17 +217,25 @@ export default ({ elev }: { elev: number }) => {
 		}
 		textSpans[0].className = 'current-letter';
 
+		let vowelsTmp: string[] = vowels;
+		let consonantsTmp: string[] = consonants;
+
+		if (containDigraphs && vowels.indexOf('aa') === -1) {
+			vowelsTmp = vowels.concat(vowelDiagraphs);
+			consonantsTmp = consonants.concat(consonantDiagraphs);
+		}
+
 		if (containCapitals) {
 			setText(
 				[...Array(textLength)]
-					.map(() => word(vowels, consonants, syllableNumber))
+					.map(() => word(vowelsTmp, consonantsTmp, syllableNumber))
 					.map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
 					.join(' ')
 			);
 		} else {
 			setText(
 				[...Array(textLength)]
-					.map(() => word(vowels, consonants, syllableNumber))
+					.map(() => word(vowelsTmp, consonantsTmp, syllableNumber))
 					.join(' ')
 			);
 		}

@@ -30,9 +30,16 @@ type Props = {
 	onClick: () => void;
 	id: string;
 	elev?: boolean;
+	disabled?: boolean;
 };
 
-export default ({ children, onClick, id, elev = false }: Props) => {
+export default ({
+	children,
+	onClick,
+	id,
+	elev = false,
+	disabled = false,
+}: Props) => {
 	return (
 		<ThemeProvider theme={styles}>
 			<OrangeButton
@@ -41,6 +48,7 @@ export default ({ children, onClick, id, elev = false }: Props) => {
 				variant='contained'
 				color='primary'
 				disableElevation={!elev}
+				disabled={disabled}
 			>
 				{children}
 			</OrangeButton>
