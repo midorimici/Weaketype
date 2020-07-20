@@ -27,7 +27,6 @@ import {
 	containCapitalsState,
 	containDigraphsState,
 	autoRefreshState,
-	textState
 } from '../atoms/SettingsAtoms';
 
 import logo from '../cog-solid.svg';
@@ -65,15 +64,9 @@ export default () => {
 		containDigraphsState
 	);
 	const [autoRefresh, setAutoRefresh] = useRecoilState(autoRefreshState);
-	const [text, setText] = useRecoilState(textState);
 
 	const closeDialog = (): void => {
 		setOpen(false)
-		if (text.slice(-1)[0] === ' ') {
-			setText(text.slice(0, -1))
-		} else {
-			setText(text + ' ')
-		}
 		document.cookie = `wgt=${weight};`
 		document.cookie = `sbn=${syllableNumber};`
 		document.cookie = `tlt=${textLength};`

@@ -95,5 +95,5 @@ export const textState = atom<string>({
 			? getCookieValue('csn').split(',')
 			: consonants, sbns))
 			.join(' ')
-		) + (arss ? ' ' : '')
+		) + arss ? ' ' : ''
 });

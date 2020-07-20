@@ -123,8 +123,8 @@ export default () => {
 			<PopUp onClick={handleNext} />
 			<Card id='popup-card' hidden>
 				<CardContent>
-					{cardContentMap[order].map((p: string, i: number) => (
-						<p key={i}>{p}</p>
+					{cardContentMap[order].map((p: string) => (
+						<p>{p}</p>
 					))}
 				</CardContent>
 				<CardActions style={{ justifyContent: 'center' }}>

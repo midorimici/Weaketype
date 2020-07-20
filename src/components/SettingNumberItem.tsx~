@@ -32,7 +32,7 @@ export default ({
 		<Grid container justify='space-between'>
 			<Grid item xs={8}>
 				<Typography variant='h5'>{title}</Typography>
-				<Typography className='indent' variant='body1' gutterBottom>{description}</Typography>
+				<Typography className='indent' variant='body1'>{description}</Typography>
 			</Grid>
 			<Grid item>
 				<TextField

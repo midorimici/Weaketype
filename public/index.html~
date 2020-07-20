@@ -7,7 +7,7 @@
     <meta
       name="description"
 
-      content="è‹¦æ‰‹ãªã‚­ãƒ¼ã‚’é‡ç‚¹çš„ã«ç·´ç¿’ã™ã‚‹ã‚¿ã‚¤ãƒ”ãƒ³ã‚°ã‚¢ãƒ—ãƒª"
+      content="‹êŽè‚ÈƒL[‚ðd“_“I‚É—ûK‚·‚éƒ^ƒCƒsƒ“ƒOƒAƒvƒŠ"
     />
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -19,7 +19,7 @@
     <title>Weaketype</title>
   </head>
   <body>
-    <noscript>ã“ã®ã‚¢ãƒ—ãƒªã‚’ä½¿ç”¨ã™ã‚‹ã«ã¯ JavaScript ã‚’æœ‰åŠ¹ã«ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚</noscript>
+    <noscript>‚±‚ÌƒAƒvƒŠ‚ðŽg—p‚·‚é‚É‚Í JavaScript ‚ð—LŒø‚É‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B</noscript>
     <div id="root"></div>
   </body>
 </html>

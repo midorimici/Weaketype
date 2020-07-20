@@ -5,7 +5,6 @@ import { RecoilRoot } from 'recoil';
 import Settings from './components/Settings';
 import TextCard from './components/TextCard';
 import Description from './components/Description';
-import AboutCookie from './components/AboutCookie';
 
 // assets
 import './App.scss';
@@ -26,7 +25,6 @@ export default () => {
 				<Settings />
 				<TextCard elev={elev ? 8 : 1} />
 				<Description />
-				<AboutCookie />
 			</div>
 		</RecoilRoot>
 	);

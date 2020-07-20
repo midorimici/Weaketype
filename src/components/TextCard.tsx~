@@ -311,14 +311,14 @@ export default ({ elev }: { elev: number }) => {
 					.map(() => word(vowelsTmp, consonantsTmp, syllableNumber))
 					.map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
 					.join(' ')
-					+ (autoRefresh ? ' ' : '')
+					+ autoRefresh ? ' ' : ''
 			);
 		} else {
 			setText(
 				[...Array(textLength)]
 					.map(() => word(vowelsTmp, consonantsTmp, syllableNumber))
 				.join(' ')
-				+ (autoRefresh ? ' ' : '')
+				+ autoRefresh ? ' ' : ''
 			);
 		}
 		setPosition(0);
