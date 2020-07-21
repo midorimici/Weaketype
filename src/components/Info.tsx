@@ -54,8 +54,9 @@ export default ({ typo, position, letters }: Props) => {
 			<Box>
 				苦手なキー：
 				<span id='bad-keys' className='anim'>
-					{badChars(letters).map((char: string) => (
+					{badChars(letters).map((char: string, i: number) => (
 						<CustomTooltip
+							key={i}
 							title={letters.filter((e: string) => e === char).length}
 							arrow
 							placement='top-start'

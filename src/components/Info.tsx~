@@ -53,7 +53,7 @@ export default ({ typo, position, letters }: Props) => {
 		<Box id='info' paddingTop='1rem' fontSize='1.5rem'>
 			<Box>
 				苦手なキー：
-				<span id='bad-keys'>
+				<span id='bad-keys' className='anim'>
 					{badChars(letters).map((char: string) => (
 						<CustomTooltip
 							title={letters.filter((e: string) => e === char).length}

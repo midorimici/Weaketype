@@ -8,9 +8,7 @@ document.cookie = 'secure';
 document.cookie = `max-age=${60*60*24*100}`;
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+	<App />,
   document.getElementById('root')
 );
 
