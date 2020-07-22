@@ -27,7 +27,7 @@ import {
 	containCapitalsState,
 	containDigraphsState,
 	autoRefreshState,
-	textState
+	textState,
 } from '../atoms/SettingsAtoms';
 
 import logo from '../cog-solid.svg';
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const maxAge: number = 60*60*24*100;
+const maxAge: number = 60 * 60 * 24 * 100;
 
 export default () => {
 	const classes = useStyles();
@@ -70,18 +70,18 @@ export default () => {
 	const [text, setText] = useRecoilState(textState);
 
 	const closeDialog = (): void => {
-		setOpen(false)
+		setOpen(false);
 		if (text.slice(-1)[0] === ' ') {
-			setText(text.slice(0, -1))
+			setText(text.slice(0, -1));
 		} else {
-			setText(text + ' ')
+			setText(text + ' ');
 		}
-		document.cookie = `wgt=${weight}; max-age=${maxAge}`;
-		document.cookie = `sbn=${syllableNumber}; max-age=${maxAge}`;
-		document.cookie = `tlt=${textLength}; max-age=${maxAge}`;
-		document.cookie = `ccs=${containCapitals}; max-age=${maxAge}`;
-		document.cookie = `cds=${containDigraphs}; max-age=${maxAge}`;
-		document.cookie = `ars=${autoRefresh}; max-age=${maxAge}`;
+		document.cookie = `wgt=${weight}; max-age=${maxAge}; secure`;
+		document.cookie = `sbn=${syllableNumber}; max-age=${maxAge}; secure`;
+		document.cookie = `tlt=${textLength}; max-age=${maxAge}; secure`;
+		document.cookie = `ccs=${containCapitals}; max-age=${maxAge}; secure`;
+		document.cookie = `cds=${containDigraphs}; max-age=${maxAge}; secure`;
+		document.cookie = `ars=${autoRefresh}; max-age=${maxAge}; secure`;
 	};
 
 	return (
@@ -94,12 +94,7 @@ export default () => {
 				height='48'
 				alt='setting'
 			/>
-			<Dialog
-				open={open}
-				onClose={closeDialog}
-				fullWidth
-				disableBackdropClick
-			>
+			<Dialog open={open} onClose={closeDialog} fullWidth disableBackdropClick>
 				<DialogTitle disableTypography>
 					<Typography variant='h4'>設定</Typography>
 				</DialogTitle>

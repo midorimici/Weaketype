@@ -18,7 +18,7 @@ import {
 	containCapitalsState,
 	containDigraphsState,
 	autoRefreshState,
-	textState
+	textState,
 } from '../atoms/SettingsAtoms';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,9 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 // cookie 取得
 const getCookieValue = (key: string): string =>
-	document.cookie.split('; ').find(row => row.startsWith(key))!.split('=')[1];
+	document.cookie
+		.split('; ')
+		.find((row) => row.startsWith(key))!
+		.split('=')[1];
 
-const maxAge: number = 60*60*24*100;
+const maxAge: number = 60 * 60 * 24 * 100;
 
 // 二重音字母音
 const vowelsAndSemivowels: string[] = ['a', 'e', 'i', 'o', 'u', 'y', 'w'];
@@ -118,16 +121,16 @@ export default ({ elev }: { elev: number }) => {
 	const [position, setPosition] = useState<number>(0);
 	const [typo, setTypo] = useState<number[]>(new Array(0));
 	const [badKeys, setBadKeys] = useState<string[]>(
-		~document.cookie.indexOf('bks')
-		? getCookieValue('bks').split(',')
-		: []
+		~document.cookie.indexOf('bks') ? getCookieValue('bks').split(',') : []
 	);
 
 	const handleKey = (e: React.KeyboardEvent<HTMLDivElement>): void => {
 		if (typing) {
 			let textSpans: Element[] = Array.from(
-					document.getElementById('textbox')!.children
-				).map((word: Element) => Array.from(word.children)).flat();
+				document.getElementById('textbox')!.children
+			)
+				.map((word: Element) => Array.from(word.children))
+				.flat();
 
 			let currentLetter: string = text[position].toLowerCase();
 			let prevLetter: string =
@@ -208,7 +211,9 @@ export default ({ elev }: { elev: number }) => {
 								);
 								setVowels(
 									vowels.concat(
-										new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+										new Array<string>(Math.floor(weight / 2)).fill(
+											currentLetter
+										)
 									)
 								);
 							} else if (~vowelDigraphs.indexOf(nextTwoLetters)) {
@@ -217,7 +222,9 @@ export default ({ elev }: { elev: number }) => {
 								);
 								setVowels(
 									vowels.concat(
-										new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+										new Array<string>(Math.floor(weight / 2)).fill(
+											currentLetter
+										)
 									)
 								);
 							} else {
@@ -242,7 +249,9 @@ export default ({ elev }: { elev: number }) => {
 								);
 								setConsonants(
 									consonants.concat(
-										new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+										new Array<string>(Math.floor(weight / 2)).fill(
+											currentLetter
+										)
 									)
 								);
 							} else if (~consonantDigraphs.indexOf(nextTwoLetters)) {
@@ -251,7 +260,9 @@ export default ({ elev }: { elev: number }) => {
 								);
 								setConsonants(
 									consonants.concat(
-										new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+										new Array<string>(Math.floor(weight / 2)).fill(
+											currentLetter
+										)
 									)
 								);
 							} else {
@@ -292,7 +303,9 @@ export default ({ elev }: { elev: number }) => {
 	const refresh = (): void => {
 		let textSpans: Element[] = Array.from(
 			document.getElementById('textbox')!.children
-		).map((word: Element) => Array.from(word.children)).flat();
+		)
+			.map((word: Element) => Array.from(word.children))
+			.flat();
 
 		for (const i of textSpans) {
 			i.className = 'waiting-letters';
@@ -312,22 +325,20 @@ export default ({ elev }: { elev: number }) => {
 				[...Array(textLength)]
 					.map(() => word(vowelsTmp, consonantsTmp, syllableNumber))
 					.map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
-					.join(' ')
-					+ (autoRefresh ? ' ' : '')
+					.join(' ') + (autoRefresh ? ' ' : '')
 			);
 		} else {
 			setText(
 				[...Array(textLength)]
 					.map(() => word(vowelsTmp, consonantsTmp, syllableNumber))
-				.join(' ')
-				+ (autoRefresh ? ' ' : '')
+					.join(' ') + (autoRefresh ? ' ' : '')
 			);
 		}
 		setPosition(0);
 		setTypo(new Array(0));
-		document.cookie = `bks=${badKeys}; max-age=${maxAge}`;
-		document.cookie = `vwl=${vowelsTmp}; max-age=${maxAge}`;
-		document.cookie = `csn=${consonantsTmp}; max-age=${maxAge}`;
+		document.cookie = `bks=${badKeys}; max-age=${maxAge}; secure`;
+		document.cookie = `vwl=${vowelsTmp}; max-age=${maxAge}; secure`;
+		document.cookie = `csn=${consonantsTmp}; max-age=${maxAge}; secure`;
 	};
 
 	return (
@@ -346,17 +357,24 @@ export default ({ elev }: { elev: number }) => {
 						.split('+')[0]
 						.split('')
 						.map((char: string, i: number) => (
-						<span key={i} className={i ? 'waiting-letters' : 'current-letter'}>{char}</span>
-					))}
+							<span
+								key={i}
+								className={i ? 'waiting-letters' : 'current-letter'}
+							>
+								{char}
+							</span>
+						))}
 				</span>
 				{text
 					.replace(/ /g, ' +')
 					.split('+')
 					.slice(1)
 					.map((word: string, i: number) => (
-						<span key={i+1} className={classes.word}>
+						<span key={i + 1} className={classes.word}>
 							{word.split('').map((char: string, j: number) => (
-								<span key={j} className='waiting-letters'>{char}</span>
+								<span key={j} className='waiting-letters'>
+									{char}
+								</span>
 							))}
 						</span>
 					))}
