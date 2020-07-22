@@ -48,6 +48,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const getCookieValue = (key: string): string =>
 	document.cookie.split('; ').find(row => row.startsWith(key))!.split('=')[1];
 
+const maxAge: number = 60*60*24*100;
+
 // 二重音字母音
 const vowelsAndSemivowels: string[] = ['a', 'e', 'i', 'o', 'u', 'y', 'w'];
 let vowelDigraphs: string[] = [];
@@ -323,9 +325,9 @@ export default ({ elev }: { elev: number }) => {
 		}
 		setPosition(0);
 		setTypo(new Array(0));
-		document.cookie = `bks=${badKeys}`;
-		document.cookie = `vwl=${vowelsTmp}`;
-		document.cookie = `csn=${consonantsTmp}`;
+		document.cookie = `bks=${badKeys}; max-age=${maxAge}`;
+		document.cookie = `vwl=${vowelsTmp}; max-age=${maxAge}`;
+		document.cookie = `csn=${consonantsTmp}; max-age=${maxAge}`;
 	};
 
 	return (

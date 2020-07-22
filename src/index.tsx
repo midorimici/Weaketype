@@ -4,9 +4,6 @@ import './index.scss';
 import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
-document.cookie = 'secure';
-document.cookie = `max-age=${60*60*24*100}`;
-
 ReactDOM.render(
 	<App />,
   document.getElementById('root')

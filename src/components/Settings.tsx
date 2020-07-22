@@ -49,6 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
+const maxAge: number = 60*60*24*100;
+
 export default () => {
 	const classes = useStyles();
 
@@ -74,12 +76,12 @@ export default () => {
 		} else {
 			setText(text + ' ')
 		}
-		document.cookie = `wgt=${weight};`
-		document.cookie = `sbn=${syllableNumber};`
-		document.cookie = `tlt=${textLength};`
-		document.cookie = `ccs=${containCapitals};`
-		document.cookie = `cds=${containDigraphs};`
-		document.cookie = `ars=${autoRefresh};`
+		document.cookie = `wgt=${weight}; max-age=${maxAge}`;
+		document.cookie = `sbn=${syllableNumber}; max-age=${maxAge}`;
+		document.cookie = `tlt=${textLength}; max-age=${maxAge}`;
+		document.cookie = `ccs=${containCapitals}; max-age=${maxAge}`;
+		document.cookie = `cds=${containDigraphs}; max-age=${maxAge}`;
+		document.cookie = `ars=${autoRefresh}; max-age=${maxAge}`;
 	};
 
 	return (
