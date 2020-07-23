@@ -71,9 +71,9 @@ export default () => {
 
 	const closeDialog = (): void => {
 		setOpen(false);
-		if (text.slice(-1)[0] === ' ') {
+		if (!autoRefresh && text.slice(-1)[0] === ' ') {
 			setText(text.slice(0, -1));
-		} else {
+		} else if (autoRefresh && text.slice(-1)[0] !== ' ') {
 			setText(text + ' ');
 		}
 		document.cookie = `wgt=${weight}; max-age=${maxAge}; secure`;
