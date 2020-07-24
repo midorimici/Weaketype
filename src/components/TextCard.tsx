@@ -10,6 +10,10 @@ import MyButton from './MyButton';
 import Info from './Info';
 
 import {
+	vowelss,
+	consonantss,
+	vowelDigraphss,
+	consonantDigraphss,
 	choose,
 	word,
 	weightState,
@@ -53,55 +57,6 @@ const getCookieValue = (key: string): string =>
 
 const maxAge: number = 60 * 60 * 24 * 100;
 
-// 二重音字母音
-const vowelsAndSemivowels: string[] = ['a', 'e', 'i', 'o', 'u', 'y', 'w'];
-let vowelDigraphs: string[] = [];
-
-for (const char1 of vowelsAndSemivowels) {
-	for (const char2 of vowelsAndSemivowels) {
-		vowelDigraphs.push(char1 + char2);
-	}
-}
-
-vowelDigraphs = Array.from(new Set(vowelDigraphs)).filter(
-	(e: string) => e !== 'yy' && e !== 'ww'
-);
-
-// 二重音字子音
-let consonantDigraphs: string[] = [
-	'bl',
-	'br',
-	'ch',
-	'ck',
-	'cl',
-	'cr',
-	'dj',
-	'dr',
-	'fl',
-	'fr',
-	'gh',
-	'gl',
-	'gr',
-	'gn',
-	'ng',
-	'ph',
-	'pl',
-	'pr',
-	'sc',
-	'sh',
-	'sk',
-	'sl',
-	'sm',
-	'sn',
-	'sp',
-	'st',
-	'th',
-	'tr',
-	'ts',
-	'wh',
-	'wr',
-];
-
 export default ({ elev }: { elev: number }) => {
 	const classes = useStyles();
 
@@ -112,10 +67,11 @@ export default ({ elev }: { elev: number }) => {
 	const containDigraphs: boolean = useRecoilValue(containDigraphsState);
 	const autoRefresh: boolean = useRecoilValue(autoRefreshState);
 
-	const [vowels, setVowels] = useState<string[]>('aeiou'.split(''));
-	const [consonants, setConsonants] = useState<string[]>(
-		'bcdfghjklmnpqrstvwxyz'.split('')
-	);
+	let vowelDigraphs: string[] = vowelDigraphss;
+	let consonantDigraphs: string[] = consonantDigraphss;
+
+	const [vowels, setVowels] = useState<string[]>(vowelss);
+	const [consonants, setConsonants] = useState<string[]>(consonantss);
 	const [text, setText] = useRecoilState(textState);
 	const [typing, setTyping] = useState<boolean>(false);
 	const [position, setPosition] = useState<number>(0);
@@ -337,8 +293,10 @@ export default ({ elev }: { elev: number }) => {
 		setPosition(0);
 		setTypo(new Array(0));
 		document.cookie = `bks=${badKeys}; max-age=${maxAge}; secure`;
-		document.cookie = `vwl=${vowelsTmp}; max-age=${maxAge}; secure`;
+		document.cookie = `vwl=${vowels}; max-age=${maxAge}; secure`;
+		document.cookie = `vwd=${vowelDigraphs}; max-age=${maxAge}; secure`;
 		document.cookie = `csn=${consonantsTmp}; max-age=${maxAge}; secure`;
+		document.cookie = `csd=${consonantDigraphs}; max-age=${maxAge}; secure`;
 	};
 
 	return (
