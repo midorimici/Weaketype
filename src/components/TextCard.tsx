@@ -67,11 +67,11 @@ export default ({ elev }: { elev: number }) => {
 	const containDigraphs: boolean = useRecoilValue(containDigraphsState);
 	const autoRefresh: boolean = useRecoilValue(autoRefreshState);
 
-	let vowelDigraphs: string[] = vowelDigraphss;
-	let consonantDigraphs: string[] = consonantDigraphss;
-
 	const [vowels, setVowels] = useState<string[]>(vowelss);
 	const [consonants, setConsonants] = useState<string[]>(consonantss);
+	const [vowelDigraphs, setVowelDigraphs] = useState<string[]>(vowelDigraphss);
+	const [consonantDigraphs, setConsonantDigraphs] = useState<string[]>(consonantDigraphss);
+
 	const [text, setText] = useRecoilState(textState);
 	const [typing, setTyping] = useState<boolean>(false);
 	const [position, setPosition] = useState<number>(0);
@@ -162,9 +162,9 @@ export default ({ elev }: { elev: number }) => {
 					if (~vowels.indexOf(currentLetter)) {
 						if (containDigraphs) {
 							if (~vowelDigraphs.indexOf(prevTwoLetters)) {
-								vowelDigraphs = vowelDigraphs.concat(
+								setVowelDigraphs(vowelDigraphs.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
-								);
+								));
 								setVowels(
 									vowels.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
@@ -173,9 +173,9 @@ export default ({ elev }: { elev: number }) => {
 									)
 								);
 							} else if (~vowelDigraphs.indexOf(nextTwoLetters)) {
-								vowelDigraphs = vowelDigraphs.concat(
+								setVowelDigraphs(vowelDigraphs.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
-								);
+								));
 								setVowels(
 									vowels.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
@@ -200,9 +200,9 @@ export default ({ elev }: { elev: number }) => {
 					} else if (~consonants.indexOf(currentLetter)) {
 						if (containDigraphs) {
 							if (~consonantDigraphs.indexOf(prevTwoLetters)) {
-								consonantDigraphs = consonantDigraphs.concat(
+								setConsonantDigraphs(consonantDigraphs.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
-								);
+								));
 								setConsonants(
 									consonants.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
@@ -211,9 +211,9 @@ export default ({ elev }: { elev: number }) => {
 									)
 								);
 							} else if (~consonantDigraphs.indexOf(nextTwoLetters)) {
-								consonantDigraphs = consonantDigraphs.concat(
+								setConsonantDigraphs(consonantDigraphs.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
-								);
+								));
 								setConsonants(
 									consonants.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
