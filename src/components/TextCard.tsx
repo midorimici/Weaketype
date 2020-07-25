@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -67,10 +67,10 @@ export default ({ elev }: { elev: number }) => {
 	const containDigraphs: boolean = useRecoilValue(containDigraphsState);
 	const autoRefresh: boolean = useRecoilValue(autoRefreshState);
 
-	const [vowels, setVowels] = useState<string[]>(vowelss);
-	const [consonants, setConsonants] = useState<string[]>(consonantss);
-	const [vowelDigraphs, setVowelDigraphs] = useState<string[]>(vowelDigraphss);
-	const [consonantDigraphs, setConsonantDigraphs] = useState<string[]>(consonantDigraphss);
+	const vowels = useRef(vowelss);
+	const consonants = useRef(consonantss);
+	const vowelDigraphs = useRef(vowelDigraphss);
+	const consonantDigraphs = useRef(consonantDigraphss);
 
 	const [text, setText] = useRecoilState(textState);
 	const [typing, setTyping] = useState<boolean>(false);
@@ -98,42 +98,42 @@ export default ({ elev }: { elev: number }) => {
 
 			if (e.key === text[position]) {
 				if (
-					vowelDigraphs.filter((char: string) => char === prevTwoLetters)
+					vowelDigraphs.current.filter((char: string) => char === prevTwoLetters)
 						.length >= 2
 				) {
-					vowelDigraphs.splice(vowelDigraphs.indexOf(prevTwoLetters), 1);
+					vowelDigraphs.current.splice(vowelDigraphs.current.indexOf(prevTwoLetters), 1);
 				} else if (
-					vowelDigraphs.filter((char: string) => char === nextTwoLetters)
+					vowelDigraphs.current.filter((char: string) => char === nextTwoLetters)
 						.length >= 2
 				) {
-					vowelDigraphs.splice(vowelDigraphs.indexOf(nextTwoLetters), 1);
+					vowelDigraphs.current.splice(vowelDigraphs.current.indexOf(nextTwoLetters), 1);
 				} else if (
-					consonantDigraphs.filter((char: string) => char === prevTwoLetters)
+					consonantDigraphs.current.filter((char: string) => char === prevTwoLetters)
 						.length >= 2
 				) {
-					consonantDigraphs.splice(
-						consonantDigraphs.indexOf(prevTwoLetters),
+					consonantDigraphs.current.splice(
+						consonantDigraphs.current.indexOf(prevTwoLetters),
 						1
 					);
 				} else if (
-					consonantDigraphs.filter((char: string) => char === nextTwoLetters)
+					consonantDigraphs.current.filter((char: string) => char === nextTwoLetters)
 						.length >= 2
 				) {
-					consonantDigraphs.splice(
-						consonantDigraphs.indexOf(nextTwoLetters),
+					consonantDigraphs.current.splice(
+						consonantDigraphs.current.indexOf(nextTwoLetters),
 						1
 					);
 				} else if (
-					vowels.filter((char: string) => char === currentLetter).length >= 2
+					vowels.current.filter((char: string) => char === currentLetter).length >= 2
 				) {
-					setVowels(vowels.join('').replace(currentLetter, '').split(''));
+					vowels.current = vowels.current.join('').replace(currentLetter, '').split('');
 				} else if (
-					consonants.filter((char: string) => char === currentLetter).length >=
+					consonants.current.filter((char: string) => char === currentLetter).length >=
 					2
 				) {
-					setConsonants(
-						consonants.join('').replace(currentLetter, '').split('')
-					);
+					consonants.current = 
+						consonants.current.join('').replace(currentLetter, '').split('')
+					;
 				}
 
 				let typed: Element = textSpans[position];
@@ -159,81 +159,81 @@ export default ({ elev }: { elev: number }) => {
 				}
 			} else {
 				if (typo.indexOf(position) === -1) {
-					if (~vowels.indexOf(currentLetter)) {
+					if (~vowels.current.indexOf(currentLetter)) {
 						if (containDigraphs) {
-							if (~vowelDigraphs.indexOf(prevTwoLetters)) {
-								setVowelDigraphs(vowelDigraphs.concat(
+							if (~vowelDigraphs.current.indexOf(prevTwoLetters)) {
+								vowelDigraphs.current = vowelDigraphs.current.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
-								));
-								setVowels(
-									vowels.concat(
+								);
+								vowels.current = 
+									vowels.current.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
 											currentLetter
 										)
 									)
-								);
-							} else if (~vowelDigraphs.indexOf(nextTwoLetters)) {
-								setVowelDigraphs(vowelDigraphs.concat(
+								;
+							} else if (~vowelDigraphs.current.indexOf(nextTwoLetters)) {
+								vowelDigraphs.current = vowelDigraphs.current.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
-								));
-								setVowels(
-									vowels.concat(
+								);
+								vowels.current = 
+									vowels.current.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
 											currentLetter
 										)
 									)
-								);
+								;
 							} else {
-								setVowels(
-									vowels.concat(
+								vowels.current = 
+									vowels.current.concat(
 										new Array<string>(Math.floor(weight)).fill(currentLetter)
 									)
-								);
+								;
 							}
 						} else {
-							setVowels(
-								vowels.concat(
+							vowels.current = 
+								vowels.current.concat(
 									new Array<string>(Math.floor(weight)).fill(currentLetter)
 								)
-							);
+							;
 						}
-					} else if (~consonants.indexOf(currentLetter)) {
+					} else if (~consonants.current.indexOf(currentLetter)) {
 						if (containDigraphs) {
-							if (~consonantDigraphs.indexOf(prevTwoLetters)) {
-								setConsonantDigraphs(consonantDigraphs.concat(
+							if (~consonantDigraphs.current.indexOf(prevTwoLetters)) {
+								consonantDigraphs.current = consonantDigraphs.current.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
-								));
-								setConsonants(
-									consonants.concat(
+								);
+								consonants.current = 
+									consonants.current.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
 											currentLetter
 										)
 									)
-								);
-							} else if (~consonantDigraphs.indexOf(nextTwoLetters)) {
-								setConsonantDigraphs(consonantDigraphs.concat(
+								;
+							} else if (~consonantDigraphs.current.indexOf(nextTwoLetters)) {
+								consonantDigraphs.current = consonantDigraphs.current.concat(
 									new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
-								));
-								setConsonants(
-									consonants.concat(
+								);
+								consonants.current = 
+									consonants.current.concat(
 										new Array<string>(Math.floor(weight / 2)).fill(
 											currentLetter
 										)
 									)
-								);
+								;
 							} else {
-								setConsonants(
-									consonants.concat(
+								consonants.current = 
+									consonants.current.concat(
 										new Array<string>(Math.floor(weight)).fill(currentLetter)
 									)
-								);
+								;
 							}
 						} else {
-							setConsonants(
-								consonants.concat(
+							consonants.current = 
+								consonants.current.concat(
 									new Array<string>(Math.floor(weight)).fill(currentLetter)
 								)
-							);
+							;
 						}
 					}
 
@@ -268,12 +268,12 @@ export default ({ elev }: { elev: number }) => {
 		}
 		textSpans[0].className = 'current-letter';
 
-		let vowelsTmp: string[] = vowels;
-		let consonantsTmp: string[] = consonants;
+		let vowelsTmp: string[] = vowels.current;
+		let consonantsTmp: string[] = consonants.current;
 
 		if (containDigraphs) {
-			vowelsTmp = vowels.concat(vowelDigraphs);
-			consonantsTmp = consonants.concat(consonantDigraphs);
+			vowelsTmp = vowels.current.concat(vowelDigraphs.current);
+			consonantsTmp = consonants.current.concat(consonantDigraphs.current);
 		}
 
 		if (containCapitals) {
@@ -292,11 +292,12 @@ export default ({ elev }: { elev: number }) => {
 		}
 		setPosition(0);
 		setTypo(new Array(0));
+
 		document.cookie = `bks=${badKeys}; max-age=${maxAge}; secure`;
-		document.cookie = `vwl=${vowels}; max-age=${maxAge}; secure`;
-		document.cookie = `vwd=${vowelDigraphs}; max-age=${maxAge}; secure`;
-		document.cookie = `csn=${consonantsTmp}; max-age=${maxAge}; secure`;
-		document.cookie = `csd=${consonantDigraphs}; max-age=${maxAge}; secure`;
+		document.cookie = `vwl=${vowels.current}; max-age=${maxAge}; secure`;
+		document.cookie = `vwd=${vowelDigraphs.current}; max-age=${maxAge}; secure`;
+		document.cookie = `csn=${consonants.current}; max-age=${maxAge}; secure`;
+		document.cookie = `csd=${consonantDigraphs.current}; max-age=${maxAge}; secure`;
 	};
 
 	return (
