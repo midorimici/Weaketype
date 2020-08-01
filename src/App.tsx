@@ -26,6 +26,7 @@ export default () => {
 				<Settings />
 				<TextCard elev={elev ? 8 : 1} />
 				<Description />
+				<footer>© 2020 みどりみち</footer>
 				<AboutCookie />
 			</div>
 		</RecoilRoot>
