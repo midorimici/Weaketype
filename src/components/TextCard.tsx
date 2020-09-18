@@ -82,6 +82,10 @@ export default ({ elev }: { elev: number }) => {
 
 	const handleKey = (e: React.KeyboardEvent<HTMLDivElement>): void => {
 		if (typing) {
+			let card = document.getElementById('card');
+			if (document.activeElement !== card) {
+				card!.focus();
+			}
 			let textSpans: Element[] = Array.from(
 				document.getElementById('textbox')!.children
 			)
@@ -112,28 +116,24 @@ export default ({ elev }: { elev: number }) => {
 						.length >= 2
 				) {
 					consonantDigraphs.current.splice(
-						consonantDigraphs.current.indexOf(prevTwoLetters),
-						1
+						consonantDigraphs.current.indexOf(prevTwoLetters), 1
 					);
 				} else if (
 					consonantDigraphs.current.filter((char: string) => char === nextTwoLetters)
 						.length >= 2
 				) {
 					consonantDigraphs.current.splice(
-						consonantDigraphs.current.indexOf(nextTwoLetters),
-						1
+						consonantDigraphs.current.indexOf(nextTwoLetters), 1
 					);
 				} else if (
 					vowels.current.filter((char: string) => char === currentLetter).length >= 2
 				) {
 					vowels.current = vowels.current.join('').replace(currentLetter, '').split('');
 				} else if (
-					consonants.current.filter((char: string) => char === currentLetter).length >=
-					2
+					consonants.current.filter((char: string) => char === currentLetter).length >= 2
 				) {
 					consonants.current = 
-						consonants.current.join('').replace(currentLetter, '').split('')
-					;
+						consonants.current.join('').replace(currentLetter, '').split('');
 				}
 
 				let typed: Element = textSpans[position];
