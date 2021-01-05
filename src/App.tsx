@@ -26,7 +26,13 @@ export default () => {
 				<Settings />
 				<TextCard elev={elev ? 8 : 1} />
 				<Description />
-				<footer>© 2020 みどりみち</footer>
+				<footer>
+					<a href='https://github.com/midorimici/Weaketype' target='_blank' rel='noopener noreferrer'>
+						ソースコード
+					</a>
+					<br></br>
+					© 2020 みどりみち
+				</footer>
 				<AboutCookie />
 			</div>
 		</RecoilRoot>
