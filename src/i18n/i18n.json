@@ -94,5 +94,21 @@
   "goBack": {
     "ja": "もどる",
     "en": "Go Back"
+  },
+  "poorKeys": {
+    "ja": "苦手なキー：",
+    "en": "I'm poor at: "
+  },
+  "mistypedTimes": {
+    "ja": "ミスタイプ数：",
+    "en": "Mistyped times: "
+  },
+  "accuracyRate": {
+    "ja": "正確率：",
+    "en": "Accuracy rate: "
+  },
+  "refresh": {
+    "ja": "更新",
+    "en": "Refresh"
   }
 }

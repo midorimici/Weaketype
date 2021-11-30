@@ -24,6 +24,7 @@ import {
   autoRefreshState,
   textState,
 } from '../atoms/SettingsAtoms';
+import { useTranslation } from '../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,6 +60,7 @@ const maxAge: number = 60 * 60 * 24 * 100;
 
 export default ({ elev }: { elev: number }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const weight: number = useRecoilValue(weightState);
   const syllableNumber: number = useRecoilValue(syllableNumberState);
@@ -294,7 +296,7 @@ export default ({ elev }: { elev: number }) => {
           {typing ? 'OFF' : 'ON'}
         </MyButton>
         <MyButton id="refresh-btn" onClick={refresh}>
-          更新
+          {t('refresh')}
         </MyButton>
       </Box>
     </Card>

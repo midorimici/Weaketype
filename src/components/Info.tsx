@@ -4,6 +4,7 @@ import React from 'react';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useTranslation } from '../i18n';
 
 const CustomTooltip = withStyles((theme: Theme) => ({
   tooltip: {
@@ -21,6 +22,8 @@ type Props = {
 };
 
 export default ({ typo, position, letters }: Props) => {
+  const { t } = useTranslation();
+
   const badChars = (strs: string[]): string[] => {
     const charMap: { [key: string]: number } = {};
     let maxChars: string[] = [];
@@ -50,7 +53,7 @@ export default ({ typo, position, letters }: Props) => {
   return (
     <Box id="info" paddingTop="1rem" fontSize="1.5rem">
       <Box>
-        苦手なキー：
+        {t('poorKeys')}
         <span id="bad-keys" className="anim">
           {badChars(letters).map((char: string, i: number) => (
             <CustomTooltip
@@ -64,9 +67,9 @@ export default ({ typo, position, letters }: Props) => {
           ))}
         </span>
       </Box>
-      <span>ミスタイプ数：{typo.length}　</span>
+      <span>{t('mistypedTimes') + typo.length}　</span>
       <span>
-        正確率：
+        {t('accuracyRate')}
         {(
           100 *
           (1 -
