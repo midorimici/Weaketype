@@ -9,7 +9,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 // components
 import MyButton from './MyButton';
 
-import { useTranslation } from '../i18n';
+import { TranslationWithLink, useTranslation } from '../i18n';
+import { Typography } from '@material-ui/core';
 
 export default () => {
   const { t } = useTranslation();
@@ -23,26 +24,19 @@ export default () => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{t('aboutCookie')}</DialogTitle>
         <DialogContent>
-          本サイトでは、サービスを利用するユーザの設定項目やタイプミス傾向を一定期間の間保存し、
-          次回の訪問のさいに活用できるように、Cookie を使用しています。
-          <br />
-          これには個人を特定する情報は含まれません。
-          <br />
-          ユーザはブラウザの設定によって Cookie を無効にすることができます。
-          <br />
-          詳しくは
-          <a
-            href="https://policies.google.com/technologies/partner-sites?hl=ja"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            こちら
-          </a>
-          をご確認ください。
+          <Typography>{t('aboutCookieDescription/purpose')}</Typography>
+          <Typography>{t('aboutCookieDescription/personalInfo')}</Typography>
+          <Typography>{t('aboutCookieDescription/disable')}</Typography>
+          <Typography>
+            <TranslationWithLink
+              k="aboutCookieDescription/details"
+              href="https://policies.google.com/technologies/partner-sites"
+            />
+          </Typography>
         </DialogContent>
         <DialogActions>
           <MyButton id="close-about-cookie" onClick={() => setOpen(false)}>
-            もどる
+            {t('goBack')}
           </MyButton>
         </DialogActions>
       </Dialog>

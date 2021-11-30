@@ -74,5 +74,25 @@
   "aboutCookie": {
     "ja": "Cookie の利用について",
     "en": "About the use of Cookie"
+  },
+  "aboutCookieDescription/purpose": {
+    "ja": "本サイトでは、サービスを利用するユーザの設定項目やタイプミス傾向を一定期間の間保存し、次回の訪問のさいに活用できるように、Cookie を使用しています。",
+    "en": "This site uses Cookie to store user configurations and mistyped letters for a while, and use these data when the users visit here again."
+  },
+  "aboutCookieDescription/personalInfo": {
+    "ja": "これには個人を特定する情報は含まれません。",
+    "en": "This does not contain any personally identifiable information."
+  },
+  "aboutCookieDescription/disable": {
+    "ja": "ユーザはブラウザの設定によって Cookie を無効にすることができます。",
+    "en": "Users can disable Cookie by browser settings."
+  },
+  "aboutCookieDescription/details": {
+    "ja": "詳しくは<>こちらのページ</>をご確認ください。",
+    "en": "For more details, please check <>this page</>."
+  },
+  "goBack": {
+    "ja": "もどる",
+    "en": "Go Back"
   }
 }
