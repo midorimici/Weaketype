@@ -1,0 +1,78 @@
+{
+  "sourceCode": {
+    "ja": "ソースコード",
+    "en": "Source Code"
+  },
+  "midorimici": {
+    "ja": "みどりみち",
+    "en": "Midori Mici"
+  },
+  "settings": {
+    "ja": "設定",
+    "en": "Settings"
+  },
+  "weight": {
+    "ja": "重み",
+    "en": "Weight"
+  },
+  "weightDescription": {
+    "ja": "打ち間違えたキーの文字がどれぐらい出現しやすくなるかを表します。",
+    "en": "Represent how often the mistyped letters appears."
+  },
+  "syllableNumber": {
+    "ja": "音節数",
+    "en": "Syllable number"
+  },
+  "syllableNumberDescription": {
+    "ja": "一単語あたりの音節数、母音の数です。",
+    "en": "The number of syllables, or vowels per word."
+  },
+  "textLength": {
+    "ja": "テキストの単語数",
+    "en": "Word number of text"
+  },
+  "textLengthLabel": {
+    "ja": "単語数",
+    "en": "Word number"
+  },
+  "textLengthDescription": {
+    "ja": "テキスト一回あたりの単語数です。",
+    "en": "The number of words per text"
+  },
+  "containCapitals": {
+    "ja": "大文字を含む",
+    "en": "Include capitals"
+  },
+  "containCapitalsDescription": {
+    "ja": "各単語の先頭を大文字にします。",
+    "en": "The first letter of each words will be capital."
+  },
+  "containDigraphs": {
+    "ja": "二重音字を含む",
+    "en": "Include digraphs"
+  },
+  "containDigraphsDescription": {
+    "ja": "２字でひとつの音を表すものを単語中に含めます。",
+    "en": "Words will contain pairs of characters with single sounds."
+  },
+  "autoRefresh": {
+    "ja": "自動更新",
+    "en": "Auto refresh"
+  },
+  "autoRefreshDescription": {
+    "ja": "テキストをすべて打ち終えると自動で次のテキストのタイピングを開始します。",
+    "en": "Next text will automatically show up when all letters typed."
+  },
+  "language": {
+    "ja": "言語",
+    "en": "Language"
+  },
+  "confirm": {
+    "ja": "決定",
+    "en": "Confirm"
+  },
+  "aboutCookie": {
+    "ja": "Cookie の利用について",
+    "en": "About the use of Cookie"
+  }
+}

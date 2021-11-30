@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { RecoilRoot } from 'recoil';
 import './index.scss';
 import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-	<App />,
+  <RecoilRoot>
+    <App />
+  </RecoilRoot>,
   document.getElementById('root')
 );
 
