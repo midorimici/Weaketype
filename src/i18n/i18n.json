@@ -110,5 +110,29 @@
   "refresh": {
     "ja": "更新",
     "en": "Refresh"
+  },
+  "descriptionTitle": {
+    "ja": "あなたの苦手なキーはどれ？",
+    "en": "Which keys you are not good at?"
+  },
+  "description/1": {
+    "ja": "タイピング速度を上げるには、タイプミスを減らすのが効果的です。",
+    "en": "To type faster, it is effective to reduce mistypes."
+  },
+  "description/2": {
+    "ja": "打ち間違いの多い苦手なキーを集中的に練習して、正確なタイピングを目指しましょう！",
+    "en": "Practice typing keys you are poor at intensively and aim for typing more accurately!"
+  },
+  "description/seeGuides": {
+    "ja": "説明を見る",
+    "en": "Show guides"
+  },
+  "prev": {
+    "ja": "前へ",
+    "en": "Previous"
+  },
+  "next": {
+    "ja": "次へ",
+    "en": "Next"
   }
 }

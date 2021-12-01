@@ -11,6 +11,8 @@ import PopUp from './PopUp';
 // styles
 import './PopUp.scss';
 
+import { useTranslation } from '../i18n';
+
 const popUpMap: { [key: number]: string } = {
   0: 'onoff-btn',
   1: 'refresh-btn',
@@ -40,6 +42,7 @@ const cardContentMap: { [key: number]: string[] } = {
 };
 
 export default () => {
+  const { t } = useTranslation();
   const [order, setOrder] = useState<number>(0);
 
   const showPopUp = (): void => {
@@ -99,13 +102,13 @@ export default () => {
   return (
     <>
       <Box component="section" id="description" m={4} fontFamily="Meiryo" fontSize="1.2rem">
-        <h2>あなたの苦手なキーはどれ？</h2>
+        <h2>{t('descriptionTitle')}</h2>
         <Box>
-          <p>タイピング速度を上げるには、タイプミスを減らすのが効果的です。</p>
-          <p>打ち間違いの多い苦手なキーを集中的に練習して、正確なタイピングを目指しましょう！</p>
+          <p>{t('description/1')}</p>
+          <p>{t('description/2')}</p>
         </Box>
         <MyButton id="showpopup-btn" onClick={showPopUp} elev={true}>
-          説明を見る
+          {t('description/seeGuides')}
         </MyButton>
       </Box>
       <PopUp onClick={handleNext} />
@@ -117,10 +120,10 @@ export default () => {
         </CardContent>
         <CardActions style={{ justifyContent: 'center' }}>
           <MyButton id="desc-prev-btn" onClick={handlePrevious} disabled={order === 0}>
-            前へ
+            {t('prev')}
           </MyButton>
           <MyButton id="desc-next-btn" onClick={handleNext}>
-            次へ
+            {t('next')}
           </MyButton>
         </CardActions>
       </Card>
