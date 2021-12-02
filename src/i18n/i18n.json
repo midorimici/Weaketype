@@ -134,5 +134,41 @@
   "next": {
     "ja": "次へ",
     "en": "Next"
+  },
+  "descriptionGuide/0-1": {
+    "ja": "ON ボタンを押すと、キーボード入力を受けつけるようになります。",
+    "en": "Key inputs will be received when the ON button clicked."
+  },
+  "descriptionGuide/0-2": {
+    "ja": "カードをクリックして浮かせるとタイピングを開始できます。",
+    "en": "You can start typing when you click and float the card."
+  },
+  "descriptionGuide/0-3": {
+    "ja": "テキストをすべて打ち終えると OFF になります（設定で変更できます）。",
+    "en": "After finishing typing all of the letters, it turns off. (You can change this behaviour in settings.)"
+  },
+  "descriptionGuide/1-1": {
+    "ja": "更新ボタンを押すとテキストが更新されます。",
+    "en": "The text will update when the refresh button clicked."
+  },
+  "descriptionGuide/2-1": {
+    "ja": "カードの中央にタイピングするテキストが表示されます。",
+    "en": "The text to type appears at the center of the card."
+  },
+  "descriptionGuide/2-2": {
+    "ja": "テキストは苦手なキーや設定をもとにランダムに生成されます。",
+    "en": "The text will be genereated randomly based on poor keys and settings."
+  },
+  "descriptionGuide/3-1": {
+    "ja": "カードの上の部分に、苦手なキー、打ち間違えた回数、現在のテキストにおけるタイピング正確率が表示されます。",
+    "en": "At the top of the card, you can see your poor keys, the number of mistypes, and the typing accuracy of the current text."
+  },
+  "descriptionGuide/3-2": {
+    "ja": "各文字にマウスカーソルを乗せると、そのキーがどれだけ出やすくなるかを示す数値が示されます。",
+    "en": "When you hover the mouse over each letter, you can see how much frequently that letter appears."
+  },
+  "descriptionGuide/4-1": {
+    "ja": "歯車のアイコンからさまざまな設定を変更できます。",
+    "en": "You can change various settings from the gear icon."
   }
 }

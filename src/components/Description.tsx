@@ -11,7 +11,7 @@ import PopUp from './PopUp';
 // styles
 import './PopUp.scss';
 
-import { useTranslation } from '../i18n';
+import { TranslationKey, useTranslation } from '../i18n';
 
 const popUpMap: { [key: number]: string } = {
   0: 'onoff-btn',
@@ -21,24 +21,12 @@ const popUpMap: { [key: number]: string } = {
   4: 'setting-icon',
 };
 
-const cardContentMap: { [key: number]: string[] } = {
-  0: [
-    'ON ボタンを押すと、キーボード入力を受けつけるようになります。',
-    'カードをクリックして浮かせるとタイピングを開始できます。',
-    'テキストをすべて打ち終えると OFF になります（設定で変更できます）。',
-  ],
-  1: ['更新ボタンを押すとテキストが更新されます。'],
-  2: [
-    'カードの中央にタイピングするテキストが表示されます。',
-    'テキストは苦手なキーや設定をもとにランダムに生成されます。',
-  ],
-  3: [
-    `カードの上の部分に、苦手なキー、打ち間違えた回数、
-	現在のテキストにおけるタイピング正確率が表示されます。`,
-    `各文字にマウスカーソルを乗せると、
-	そのキーがどれだけ出やすくなるかを示す数値が示されます。`,
-  ],
-  4: ['歯車のアイコンからさまざまな設定を変更できます。'],
+const cardContentMap: Record<number, TranslationKey[]> = {
+  0: ['descriptionGuide/0-1', 'descriptionGuide/0-2', 'descriptionGuide/0-3'],
+  1: ['descriptionGuide/1-1'],
+  2: ['descriptionGuide/2-1', 'descriptionGuide/2-2'],
+  3: ['descriptionGuide/3-1', 'descriptionGuide/3-2'],
+  4: ['descriptionGuide/4-1'],
 };
 
 export default () => {
@@ -114,8 +102,8 @@ export default () => {
       <PopUp onClick={handleNext} />
       <Card id="popup-card" hidden>
         <CardContent>
-          {cardContentMap[order].map((p: string, i: number) => (
-            <p key={i}>{p}</p>
+          {cardContentMap[order].map((p: TranslationKey, i: number) => (
+            <p key={i}>{t(p)}</p>
           ))}
         </CardContent>
         <CardActions style={{ justifyContent: 'center' }}>
