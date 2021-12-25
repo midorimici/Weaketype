@@ -2,8 +2,7 @@ import React from 'react';
 
 // MUI
 import { withStyles, Theme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Tooltip from '@material-ui/core/Tooltip';
+import { Box, Tooltip } from '@material-ui/core';
 import { useTranslation } from '../i18n';
 
 const CustomTooltip = withStyles((theme: Theme) => ({

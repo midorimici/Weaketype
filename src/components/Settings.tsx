@@ -10,12 +10,16 @@ import {
   createStyles,
 } from '@material-ui/core/styles';
 import { orange } from '@material-ui/core/colors';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Typography from '@material-ui/core/Typography';
-import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@material-ui/core';
 
 // components
 import MyButton from './MyButton';

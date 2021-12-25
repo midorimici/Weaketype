@@ -1,9 +1,7 @@
 import React from 'react';
 
 // MUI
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import { Typography, TextField, Grid } from '@material-ui/core';
 
 type Props = {
   title: string;

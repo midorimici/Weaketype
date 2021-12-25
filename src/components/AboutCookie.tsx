@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 
 // MUI
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
 // components
 import MyButton from './MyButton';
