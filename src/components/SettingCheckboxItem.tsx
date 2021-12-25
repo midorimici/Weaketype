@@ -1,9 +1,7 @@
 import React from 'react';
 
 // MUI
-import Typography from '@material-ui/core/Typography';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
+import { Typography, Checkbox, Grid } from '@material-ui/core';
 
 type Props = {
   title: string;
