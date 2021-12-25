@@ -42,133 +42,135 @@ export const useTextHandlers = () => {
   );
 
   const handleKey = (e: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (typing) {
-      let card = document.getElementById('card');
-      if (document.activeElement !== card) {
-        card!.focus();
+    if (!typing) {
+      return;
+    }
+
+    let card = document.getElementById('card');
+    if (document.activeElement !== card) {
+      card!.focus();
+    }
+    let textSpans: Element[] = Array.from(document.getElementById('textbox')!.children)
+      .map((word: Element) => Array.from(word.children))
+      .flat();
+
+    let currentLetter: string = text[position].toLowerCase();
+    let prevLetter: string = position === 0 ? '' : text[position - 1].toLowerCase();
+    let nextLetter: string = position === text.length - 1 ? '' : text[position + 1].toLowerCase();
+    let prevTwoLetters: string = prevLetter + currentLetter;
+    let nextTwoLetters: string = currentLetter + nextLetter;
+
+    if (e.key === text[position]) {
+      if (vowelDigraphs.current.filter((char: string) => char === prevTwoLetters).length >= 2) {
+        vowelDigraphs.current.splice(vowelDigraphs.current.indexOf(prevTwoLetters), 1);
+      } else if (
+        vowelDigraphs.current.filter((char: string) => char === nextTwoLetters).length >= 2
+      ) {
+        vowelDigraphs.current.splice(vowelDigraphs.current.indexOf(nextTwoLetters), 1);
+      } else if (
+        consonantDigraphs.current.filter((char: string) => char === prevTwoLetters).length >= 2
+      ) {
+        consonantDigraphs.current.splice(consonantDigraphs.current.indexOf(prevTwoLetters), 1);
+      } else if (
+        consonantDigraphs.current.filter((char: string) => char === nextTwoLetters).length >= 2
+      ) {
+        consonantDigraphs.current.splice(consonantDigraphs.current.indexOf(nextTwoLetters), 1);
+      } else if (vowels.current.filter((char: string) => char === currentLetter).length >= 2) {
+        vowels.current = vowels.current.join('').replace(currentLetter, '').split('');
+      } else if (consonants.current.filter((char: string) => char === currentLetter).length >= 2) {
+        consonants.current = consonants.current.join('').replace(currentLetter, '').split('');
       }
-      let textSpans: Element[] = Array.from(document.getElementById('textbox')!.children)
-        .map((word: Element) => Array.from(word.children))
-        .flat();
 
-      let currentLetter: string = text[position].toLowerCase();
-      let prevLetter: string = position === 0 ? '' : text[position - 1].toLowerCase();
-      let nextLetter: string = position === text.length - 1 ? '' : text[position + 1].toLowerCase();
-      let prevTwoLetters: string = prevLetter + currentLetter;
-      let nextTwoLetters: string = currentLetter + nextLetter;
+      let typed: Element = textSpans[position];
 
-      if (e.key === text[position]) {
-        if (vowelDigraphs.current.filter((char: string) => char === prevTwoLetters).length >= 2) {
-          vowelDigraphs.current.splice(vowelDigraphs.current.indexOf(prevTwoLetters), 1);
-        } else if (
-          vowelDigraphs.current.filter((char: string) => char === nextTwoLetters).length >= 2
-        ) {
-          vowelDigraphs.current.splice(vowelDigraphs.current.indexOf(nextTwoLetters), 1);
-        } else if (
-          consonantDigraphs.current.filter((char: string) => char === prevTwoLetters).length >= 2
-        ) {
-          consonantDigraphs.current.splice(consonantDigraphs.current.indexOf(prevTwoLetters), 1);
-        } else if (
-          consonantDigraphs.current.filter((char: string) => char === nextTwoLetters).length >= 2
-        ) {
-          consonantDigraphs.current.splice(consonantDigraphs.current.indexOf(nextTwoLetters), 1);
-        } else if (vowels.current.filter((char: string) => char === currentLetter).length >= 2) {
-          vowels.current = vowels.current.join('').replace(currentLetter, '').split('');
-        } else if (
-          consonants.current.filter((char: string) => char === currentLetter).length >= 2
-        ) {
-          consonants.current = consonants.current.join('').replace(currentLetter, '').split('');
-        }
+      typed.classList.add('typed-letters');
 
-        let typed: Element = textSpans[position];
+      let mark: string = choose('★♥♦'.split(''));
+      typed.setAttribute('data-name', mark);
 
-        typed.classList.add('typed-letters');
+      typed.classList.remove('current-letter');
 
-        let mark: string = choose('★♥♦'.split(''));
-        typed.setAttribute('data-name', mark);
+      if (~badKeys.indexOf(currentLetter)) {
+        let badKeysTmp: string[] = badKeys;
+        badKeysTmp.splice(badKeysTmp.indexOf(currentLetter), 1);
+        setBadKeys(badKeysTmp);
+      }
 
-        typed.classList.remove('current-letter');
-
-        if (~badKeys.indexOf(currentLetter)) {
-          let badKeysTmp: string[] = badKeys;
-          badKeysTmp.splice(badKeysTmp.indexOf(currentLetter), 1);
-          setBadKeys(badKeysTmp);
-        }
-
-        if (position <= text.length - 2) {
-          textSpans[position + 1].className = 'current-letter';
-          setPosition(position + 1);
-        } else {
-          autoRefresh ? refresh() : setTyping(false);
-        }
+      if (position <= text.length - 2) {
+        textSpans[position + 1].className = 'current-letter';
+        setPosition(position + 1);
       } else {
-        if (typo.indexOf(position) === -1) {
-          if (~vowels.current.indexOf(currentLetter)) {
-            if (containDigraphs) {
-              if (~vowelDigraphs.current.indexOf(prevTwoLetters)) {
-                vowelDigraphs.current = vowelDigraphs.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
-                );
-                vowels.current = vowels.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
-                );
-              } else if (~vowelDigraphs.current.indexOf(nextTwoLetters)) {
-                vowelDigraphs.current = vowelDigraphs.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
-                );
-                vowels.current = vowels.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
-                );
-              } else {
-                vowels.current = vowels.current.concat(
-                  new Array<string>(Math.floor(weight)).fill(currentLetter)
-                );
-              }
-            } else {
-              vowels.current = vowels.current.concat(
-                new Array<string>(Math.floor(weight)).fill(currentLetter)
-              );
-            }
-          } else if (~consonants.current.indexOf(currentLetter)) {
-            if (containDigraphs) {
-              if (~consonantDigraphs.current.indexOf(prevTwoLetters)) {
-                consonantDigraphs.current = consonantDigraphs.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
-                );
-                consonants.current = consonants.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
-                );
-              } else if (~consonantDigraphs.current.indexOf(nextTwoLetters)) {
-                consonantDigraphs.current = consonantDigraphs.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
-                );
-                consonants.current = consonants.current.concat(
-                  new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
-                );
-              } else {
-                consonants.current = consonants.current.concat(
-                  new Array<string>(Math.floor(weight)).fill(currentLetter)
-                );
-              }
-            } else {
-              consonants.current = consonants.current.concat(
-                new Array<string>(Math.floor(weight)).fill(currentLetter)
-              );
-            }
+        autoRefresh ? refresh() : setTyping(false);
+      }
+    } else {
+      if (~typo.indexOf(position)) {
+        return;
+      }
+
+      if (~vowels.current.indexOf(currentLetter)) {
+        if (containDigraphs) {
+          if (~vowelDigraphs.current.indexOf(prevTwoLetters)) {
+            vowelDigraphs.current = vowelDigraphs.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
+            );
+            vowels.current = vowels.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+            );
+          } else if (~vowelDigraphs.current.indexOf(nextTwoLetters)) {
+            vowelDigraphs.current = vowelDigraphs.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
+            );
+            vowels.current = vowels.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+            );
+          } else {
+            vowels.current = vowels.current.concat(
+              new Array<string>(Math.floor(weight)).fill(currentLetter)
+            );
           }
-
-          if (currentLetter !== ' ') {
-            setBadKeys(badKeys.concat(new Array<string>(weight).fill(currentLetter)));
+        } else {
+          vowels.current = vowels.current.concat(
+            new Array<string>(Math.floor(weight)).fill(currentLetter)
+          );
+        }
+      } else if (~consonants.current.indexOf(currentLetter)) {
+        if (containDigraphs) {
+          if (~consonantDigraphs.current.indexOf(prevTwoLetters)) {
+            consonantDigraphs.current = consonantDigraphs.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(prevTwoLetters)
+            );
+            consonants.current = consonants.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+            );
+          } else if (~consonantDigraphs.current.indexOf(nextTwoLetters)) {
+            consonantDigraphs.current = consonantDigraphs.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(nextTwoLetters)
+            );
+            consonants.current = consonants.current.concat(
+              new Array<string>(Math.floor(weight / 2)).fill(currentLetter)
+            );
+          } else {
+            consonants.current = consonants.current.concat(
+              new Array<string>(Math.floor(weight)).fill(currentLetter)
+            );
           }
-
-          setTypo([...typo, position]);
-          textSpans[position].classList.add('typo');
-
-          document.getElementById('bad-keys')!.classList.remove('anim');
-          void document.getElementById('bad-keys')!.offsetWidth;
-          document.getElementById('bad-keys')!.classList.add('anim');
+        } else {
+          consonants.current = consonants.current.concat(
+            new Array<string>(Math.floor(weight)).fill(currentLetter)
+          );
         }
       }
+
+      if (currentLetter !== ' ') {
+        setBadKeys(badKeys.concat(new Array<string>(weight).fill(currentLetter)));
+      }
+
+      setTypo([...typo, position]);
+      textSpans[position].classList.add('typo');
+
+      document.getElementById('bad-keys')!.classList.remove('anim');
+      void document.getElementById('bad-keys')!.offsetWidth;
+      document.getElementById('bad-keys')!.classList.add('anim');
     }
   };
 
@@ -192,18 +194,15 @@ export const useTextHandlers = () => {
       consonantsTmp = consonants.current.concat(consonantDigraphs.current);
     }
 
+    const words = [...Array(textLength)].map(() => word(vowelsTmp, consonantsTmp, syllableNumber));
+
     if (containCapitals) {
       setText(
-        [...Array(textLength)]
-          .map(() => word(vowelsTmp, consonantsTmp, syllableNumber))
-          .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
-          .join(' ') + (autoRefresh ? ' ' : '')
-      );
-    } else {
-      setText(
-        [...Array(textLength)].map(() => word(vowelsTmp, consonantsTmp, syllableNumber)).join(' ') +
+        words.map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') +
           (autoRefresh ? ' ' : '')
       );
+    } else {
+      setText(words.join(' ') + (autoRefresh ? ' ' : ''));
     }
     setPosition(0);
     setTypo(new Array(0));
