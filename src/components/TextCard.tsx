@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     word: {
       overflowWrap: 'anywhere',
+      wordBreak: 'break-all',
     },
     buttons: {
       '& > *': {
