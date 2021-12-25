@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 // MUI
 import {
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
   makeStyles,
   Theme,
@@ -35,7 +35,7 @@ import {
 import logo from '../cog-solid.svg';
 import { availableLanguages, Languages, useTranslation } from '../i18n';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     secondary: orange,
   },

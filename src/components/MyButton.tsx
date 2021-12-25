@@ -1,9 +1,9 @@
 import React from 'react';
-import { createMuiTheme, withStyles, Theme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, withStyles, Theme, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { orange } from '@material-ui/core/colors';
 
-const styles = createMuiTheme({
+const styles = createTheme({
   typography: {
     button: {
       textTransform: 'none',
