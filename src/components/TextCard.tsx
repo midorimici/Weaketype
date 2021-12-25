@@ -8,13 +8,8 @@ import { Box, Card } from '@material-ui/core';
 import MyButton from './MyButton';
 import Info from './Info';
 
+import { vowelss, consonantss, vowelDigraphss, consonantDigraphss, choose, word } from '../lib/lib';
 import {
-  vowelss,
-  consonantss,
-  vowelDigraphss,
-  consonantDigraphss,
-  choose,
-  word,
   weightState,
   syllableNumberState,
   textLengthState,
