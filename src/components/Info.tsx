@@ -23,6 +23,12 @@ type Props = {
 export default ({ typo, position, letters }: Props) => {
   const { t } = useTranslation();
 
+  const accuracyRate = (
+    100 *
+    (1 -
+      typo.length / (typo.slice(-1)[0] === position ? position + 1 : position === 0 ? 1 : position))
+  ).toFixed(2);
+
   const badChars = (strs: string[]): string[] => {
     const charMap: { [key: string]: number } = {};
     let maxChars: string[] = [];
@@ -69,13 +75,7 @@ export default ({ typo, position, letters }: Props) => {
       <span>{t('mistypedTimes') + typo.length}　</span>
       <span>
         {t('accuracyRate')}
-        {(
-          100 *
-          (1 -
-            typo.length /
-              (typo.slice(-1)[0] === position ? position + 1 : position === 0 ? 1 : position))
-        ).toFixed(2)}
-        %
+        {accuracyRate}%
       </span>
     </Box>
   );
