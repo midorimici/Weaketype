@@ -9,6 +9,7 @@ import {
   choose,
   word,
 } from '../../lib/lib';
+import { getCookieValue, setCookie } from '../../lib/cookie';
 import {
   weightState,
   syllableNumberState,
@@ -18,15 +19,6 @@ import {
   autoRefreshState,
   textState,
 } from '../../atoms/SettingsAtoms';
-
-// Cookie 取得
-const getCookieValue = (key: string): string =>
-  document.cookie
-    .split('; ')
-    .find((row) => row.startsWith(key))!
-    .split('=')[1];
-
-const maxAge: number = 60 * 60 * 24 * 100;
 
 export const useTextHandlers = () => {
   const weight: number = useRecoilValue(weightState);
@@ -216,11 +208,11 @@ export const useTextHandlers = () => {
     setPosition(0);
     setTypo(new Array(0));
 
-    document.cookie = `bks=${badKeys}; max-age=${maxAge}; secure`;
-    document.cookie = `vwl=${vowels.current}; max-age=${maxAge}; secure`;
-    document.cookie = `vwd=${vowelDigraphs.current}; max-age=${maxAge}; secure`;
-    document.cookie = `csn=${consonants.current}; max-age=${maxAge}; secure`;
-    document.cookie = `csd=${consonantDigraphs.current}; max-age=${maxAge}; secure`;
+    setCookie('bks', badKeys);
+    setCookie('vwl', vowels.current);
+    setCookie('vwd', vowelDigraphs.current);
+    setCookie('csn', consonants.current);
+    setCookie('csd', consonantDigraphs.current);
   };
 
   return { text, typing, position, typo, badKeys, handleKey, typingToggle, refresh };

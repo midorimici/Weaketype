@@ -12,8 +12,7 @@ import {
   textState,
 } from '../../atoms/SettingsAtoms';
 import { availableLanguages, Languages } from '../../i18n';
-
-const maxAge: number = 60 * 60 * 24 * 100;
+import { setCookie } from '../../lib/cookie';
 
 export const useSettingsHandlers = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -40,12 +39,12 @@ export const useSettingsHandlers = () => {
     } else if (autoRefresh && text.slice(-1)[0] !== ' ') {
       setText(text + ' ');
     }
-    document.cookie = `wgt=${weight}; max-age=${maxAge}; secure`;
-    document.cookie = `sbn=${syllableNumber}; max-age=${maxAge}; secure`;
-    document.cookie = `tlt=${textLength}; max-age=${maxAge}; secure`;
-    document.cookie = `ccs=${containCapitals}; max-age=${maxAge}; secure`;
-    document.cookie = `cds=${containDigraphs}; max-age=${maxAge}; secure`;
-    document.cookie = `ars=${autoRefresh}; max-age=${maxAge}; secure`;
+    setCookie('wgt', weight);
+    setCookie('sbn', syllableNumber);
+    setCookie('tlt', textLength);
+    setCookie('ccs', containCapitals);
+    setCookie('cds', containDigraphs);
+    setCookie('ars', autoRefresh);
   };
 
   return {

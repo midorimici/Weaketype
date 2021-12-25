@@ -1,4 +1,5 @@
 import { vowles, consonants, vowelsAndSemivowels, digraphs } from './constants';
+import { getCookieValue } from './cookie';
 
 export const choose = (choice: string[]): string =>
   choice[Math.floor(Math.random() * choice.length)];
@@ -28,12 +29,6 @@ let wgt: number | null = null,
   ccs: boolean | null = null,
   cds: boolean | null = null,
   ars: boolean | null = null;
-
-export const getCookieValue = (key: string): string =>
-  document.cookie
-    .split('; ')
-    .find((row) => row.startsWith(key))!
-    .split('=')[1];
 
 export const vowelss: string[] = ~document.cookie.indexOf('vwl')
   ? getCookieValue('vwl').split(',')
@@ -91,24 +86,15 @@ if (cdss) {
   consonantsTmp = consonantss.concat(consonantDigraphss);
 }
 
+const words = [...Array(tlts)].map(() =>
+  word(
+    ~document.cookie.indexOf('vwl') ? vowelsTmp : vowelss,
+    ~document.cookie.indexOf('csn') ? consonantsTmp : consonantss,
+    sbns
+  )
+);
+
 export const defaultText =
   (ccss
-    ? [...Array(tlts)]
-        .map(() =>
-          word(
-            ~document.cookie.indexOf('vwl') ? vowelsTmp : vowelss,
-            ~document.cookie.indexOf('csn') ? consonantsTmp : consonantss,
-            sbns
-          )
-        )
-        .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(' ')
-    : [...Array(tlts)]
-        .map(() =>
-          word(
-            ~document.cookie.indexOf('vwl') ? vowelsTmp : vowelss,
-            ~document.cookie.indexOf('csn') ? consonantsTmp : consonantss,
-            sbns
-          )
-        )
-        .join(' ')) + (arss ? ' ' : '');
+    ? words.map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    : words.join(' ')) + (arss ? ' ' : '');
