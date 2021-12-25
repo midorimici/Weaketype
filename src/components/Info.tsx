@@ -2,8 +2,7 @@ import React from 'react';
 
 // MUI
 import { withStyles, Theme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Tooltip from '@material-ui/core/Tooltip';
+import { Box, Tooltip } from '@material-ui/core';
 import { useTranslation } from '../i18n';
 
 const CustomTooltip = withStyles((theme: Theme) => ({
@@ -23,6 +22,12 @@ type Props = {
 
 export default ({ typo, position, letters }: Props) => {
   const { t } = useTranslation();
+
+  const accuracyRate = (
+    100 *
+    (1 -
+      typo.length / (typo.slice(-1)[0] === position ? position + 1 : position === 0 ? 1 : position))
+  ).toFixed(2);
 
   const badChars = (strs: string[]): string[] => {
     const charMap: { [key: string]: number } = {};
@@ -70,13 +75,7 @@ export default ({ typo, position, letters }: Props) => {
       <span>{t('mistypedTimes') + typo.length}　</span>
       <span>
         {t('accuracyRate')}
-        {(
-          100 *
-          (1 -
-            typo.length /
-              (typo.slice(-1)[0] === position ? position + 1 : position === 0 ? 1 : position))
-        ).toFixed(2)}
-        %
+        {accuracyRate}%
       </span>
     </Box>
   );
