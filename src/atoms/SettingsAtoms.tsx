@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
-import { Languages } from '../i18n';
-import { wgts, sbns, tlts, ccss, cdss, arss, defaultText } from '../lib/lib';
+import type { Languages } from '../lib/constants';
+import { wgts, sbns, tlts, ccss, cdss, arss, lggs, defaultText } from '../lib/lib';
 
 export const weightState = atom<number>({
   key: 'weight',
@@ -34,7 +34,7 @@ export const autoRefreshState = atom<boolean>({
 
 export const langState = atom<Languages>({
   key: 'language',
-  default: 'ja',
+  default: lggs,
 });
 
 export const textState = atom<string>({

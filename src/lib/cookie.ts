@@ -4,8 +4,10 @@ export const setCookie = (key: string, value: any) => {
   document.cookie = `${key}=${value}; max-age=${maxAge}; secure`;
 };
 
-export const getCookieValue = (key: string): string =>
-  document.cookie
-    .split('; ')
-    .find((row) => row.startsWith(key))!
-    .split('=')[1];
+export const getCookieValue = (key: string): string => {
+  const value = document.cookie.split('; ').find((row) => row.startsWith(key));
+  if (value) {
+    return value.split('=')[1];
+  }
+  return '';
+};

@@ -1,4 +1,11 @@
-import { vowles, consonants, vowelsAndSemivowels, digraphs } from './constants';
+import {
+  vowles,
+  consonants,
+  vowelsAndSemivowels,
+  digraphs,
+  availableLanguages,
+  Languages,
+} from './constants';
 import { getCookieValue } from './cookie';
 
 export const choose = (choice: string[]): string =>
@@ -28,7 +35,8 @@ let wgt: number | null = null,
   tlt: number | null = null,
   ccs: boolean | null = null,
   cds: boolean | null = null,
-  ars: boolean | null = null;
+  ars: boolean | null = null,
+  lgg: Languages | null = null;
 
 export const vowelss: string[] = ~document.cookie.indexOf('vwl')
   ? getCookieValue('vwl').split(',')
@@ -69,6 +77,8 @@ if (~document.cookie.indexOf('wgt')) {
   ccs = getCookieValue('ccs') === 'true' ? true : false;
   cds = getCookieValue('cds') === 'true' ? true : false;
   ars = getCookieValue('ars') === 'true' ? true : false;
+  const lang = getCookieValue('lgg') as Languages;
+  lgg = availableLanguages.includes(lang) ? lang : 'en';
 }
 
 export const wgts = wgt ?? 20;
@@ -77,6 +87,7 @@ export const tlts = tlt ?? 15;
 export const ccss = ccs ?? false;
 export const cdss = cds ?? false;
 export const arss = ars ?? false;
+export const lggs = lgg ?? 'en';
 
 let vowelsTmp: string[] = vowelss;
 let consonantsTmp: string[] = consonantss;

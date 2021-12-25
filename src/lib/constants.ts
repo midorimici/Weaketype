@@ -34,3 +34,6 @@ export const digraphs = [
   'wh',
   'wr',
 ];
+
+export const availableLanguages = ['en', 'ja'] as const;
+export type Languages = typeof availableLanguages[number];

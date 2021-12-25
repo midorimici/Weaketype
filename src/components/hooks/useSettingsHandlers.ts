@@ -11,7 +11,7 @@ import {
   langState,
   textState,
 } from '../../atoms/SettingsAtoms';
-import { availableLanguages, Languages } from '../../i18n';
+import { availableLanguages, Languages } from '../../lib/constants';
 import { setCookie } from '../../lib/cookie';
 
 export const useSettingsHandlers = () => {
@@ -45,6 +45,7 @@ export const useSettingsHandlers = () => {
     setCookie('ccs', containCapitals);
     setCookie('cds', containDigraphs);
     setCookie('ars', autoRefresh);
+    setCookie('lgg', lang);
   };
 
   return {
