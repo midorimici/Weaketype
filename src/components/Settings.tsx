@@ -18,6 +18,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  IconButton,
 } from '@material-ui/core';
 
 // components
@@ -72,14 +73,9 @@ export default () => {
 
   return (
     <>
-      <img
-        onClick={() => setOpen(true)}
-        id="setting-icon"
-        src={logo}
-        width="48"
-        height="48"
-        alt="setting"
-      />
+      <IconButton id="setting-icon" aria-label="settings" onClick={() => setOpen(true)}>
+        <img src={logo} width="48" height="48" alt="setting" />
+      </IconButton>
       <Dialog open={open} onClose={closeDialog} fullWidth disableBackdropClick>
         <DialogTitle disableTypography>
           <Typography variant="h4">{t('settings')}</Typography>
