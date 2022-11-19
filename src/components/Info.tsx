@@ -18,9 +18,10 @@ type Props = {
   typo: number[];
   position: number;
   letters: string[];
+  speed: number;
 };
 
-export default ({ typo, position, letters }: Props) => {
+export default ({ typo, position, letters, speed }: Props) => {
   const { t } = useTranslation();
 
   const accuracyRate = (
@@ -72,11 +73,14 @@ export default ({ typo, position, letters }: Props) => {
           ))}
         </span>
       </Box>
-      <span>{t('mistypedTimes') + typo.length}　</span>
+      <span>{t('mistypedTimes') + typo.length} </span>
       <span>
         {t('accuracyRate')}
         {accuracyRate}%
       </span>
+      <Box>
+        <span>{`${t('speed')}${speed.toFixed(2)} ${t('keys/sec')}`}</span>
+      </Box>
     </Box>
   );
 };

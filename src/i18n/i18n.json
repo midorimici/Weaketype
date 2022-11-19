@@ -107,6 +107,14 @@
     "ja": "正確率：",
     "en": "Accuracy rate: "
   },
+  "speed": {
+    "ja": "速さ：",
+    "en": "Speed: "
+  },
+  "keys/sec": {
+    "ja": "キー / 秒",
+    "en": "keys / sec."
+  },
   "refresh": {
     "ja": "更新",
     "en": "Refresh"
