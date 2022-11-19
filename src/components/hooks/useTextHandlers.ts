@@ -35,15 +35,23 @@ export const useTextHandlers = () => {
 
   const [text, setText] = useRecoilState(textState);
   const [typing, setTyping] = useState<boolean>(false);
-  const [position, setPosition] = useState<number>(0);
+  const position = useRef<number>(0);
   const [typo, setTypo] = useState<number[]>(new Array(0));
   const [badKeys, setBadKeys] = useState<string[]>(
     ~document.cookie.indexOf('bks') ? getCookieValue('bks').split(',') : []
   );
+  const time = useRef<number>(0);
+  const [timerID, setTimerID] = useState<number>(0);
+  const [speed, setSpeed] = useState<number>(0);
 
   const handleKey = (e: React.KeyboardEvent<HTMLDivElement>): void => {
     if (!typing) {
       return;
+    }
+
+    // Start timer
+    if (position.current === 0) {
+      setTimerID(window.setInterval(() => updateSpeed(), 500));
     }
 
     let card = document.getElementById('card');
@@ -54,13 +62,14 @@ export const useTextHandlers = () => {
       .map((word: Element) => Array.from(word.children))
       .flat();
 
-    let currentLetter: string = text[position].toLowerCase();
-    let prevLetter: string = position === 0 ? '' : text[position - 1].toLowerCase();
-    let nextLetter: string = position === text.length - 1 ? '' : text[position + 1].toLowerCase();
+    let currentLetter: string = text[position.current].toLowerCase();
+    let prevLetter: string = position.current === 0 ? '' : text[position.current - 1].toLowerCase();
+    let nextLetter: string =
+      position.current === text.length - 1 ? '' : text[position.current + 1].toLowerCase();
     let prevTwoLetters: string = prevLetter + currentLetter;
     let nextTwoLetters: string = currentLetter + nextLetter;
 
-    if (e.key === text[position]) {
+    if (e.key === text[position.current]) {
       if (vowelDigraphs.current.filter((char: string) => char === prevTwoLetters).length >= 2) {
         vowelDigraphs.current.splice(vowelDigraphs.current.indexOf(prevTwoLetters), 1);
       } else if (
@@ -81,7 +90,7 @@ export const useTextHandlers = () => {
         consonants.current = consonants.current.join('').replace(currentLetter, '').split('');
       }
 
-      let typed: Element = textSpans[position];
+      let typed: Element = textSpans[position.current];
 
       typed.classList.add('typed-letters');
 
@@ -96,14 +105,16 @@ export const useTextHandlers = () => {
         setBadKeys(badKeysTmp);
       }
 
-      if (position <= text.length - 2) {
-        textSpans[position + 1].className = 'current-letter';
-        setPosition(position + 1);
+      if (position.current <= text.length - 2) {
+        textSpans[position.current + 1].className = 'current-letter';
+        position.current++;
       } else {
         autoRefresh ? refresh() : setTyping(false);
+        window.clearInterval(timerID);
+        time.current = 0;
       }
     } else {
-      if (~typo.indexOf(position)) {
+      if (~typo.indexOf(position.current)) {
         return;
       }
 
@@ -165,8 +176,8 @@ export const useTextHandlers = () => {
         setBadKeys(badKeys.concat(new Array<string>(weight).fill(currentLetter)));
       }
 
-      setTypo([...typo, position]);
-      textSpans[position].classList.add('typo');
+      setTypo([...typo, position.current]);
+      textSpans[position.current].classList.add('typo');
 
       document.getElementById('bad-keys')!.classList.remove('anim');
       void document.getElementById('bad-keys')!.offsetWidth;
@@ -174,7 +185,10 @@ export const useTextHandlers = () => {
     }
   };
 
-  const typingToggle = (): void => setTyping(typing ? false : true);
+  const typingToggle = (): void => {
+    setTyping(typing ? false : true);
+    window.clearInterval(timerID);
+  };
 
   const refresh = (): void => {
     let textSpans: Element[] = Array.from(document.getElementById('textbox')!.children)
@@ -204,8 +218,10 @@ export const useTextHandlers = () => {
     } else {
       setText(words.join(' ') + (autoRefresh ? ' ' : ''));
     }
-    setPosition(0);
+    position.current = 0;
     setTypo(new Array(0));
+    setSpeed(0);
+    window.clearInterval(timerID);
 
     setCookie('bks', badKeys);
     setCookie('vwl', vowels.current);
@@ -214,5 +230,21 @@ export const useTextHandlers = () => {
     setCookie('csd', consonantDigraphs.current);
   };
 
-  return { text, typing, position, typo, badKeys, handleKey, typingToggle, refresh };
+  const updateSpeed = (): void => {
+    time.current += 500;
+    const s = (position.current + 1) / (time.current / 1000);
+    setSpeed(s);
+  };
+
+  return {
+    text,
+    typing,
+    position: position.current,
+    typo,
+    badKeys,
+    speed,
+    handleKey,
+    typingToggle,
+    refresh,
+  };
 };

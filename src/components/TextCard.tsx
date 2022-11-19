@@ -38,7 +38,7 @@ export default ({ elev }: { elev: number }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const { text, typing, position, typo, badKeys, handleKey, typingToggle, refresh } =
+  const { text, typing, position, typo, badKeys, speed, handleKey, typingToggle, refresh } =
     useTextHandlers();
 
   return (
@@ -49,7 +49,7 @@ export default ({ elev }: { elev: number }) => {
       className={classes.card}
       elevation={elev}
     >
-      <Info typo={typo} position={position} letters={badKeys} />
+      <Info typo={typo} position={position} letters={badKeys} speed={speed} />
       <Box id="textbox">
         <span key={0} className={classes.word}>
           {text
